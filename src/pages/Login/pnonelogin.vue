@@ -1,21 +1,12 @@
 <template>
-  <div class="footer">
-    
-  </div>
+  <div class="">短信登录</div>
 </template>
 
 <script>
-import Vue from "vue";
-import { Tabbar, TabbarItem } from "vant";
-
-Vue.use(Tabbar);
-Vue.use(TabbarItem);
 export default {
   components: {},
   data() {
-    return {
-      active: 0,
-    };
+    return {};
   },
   computed: {},
   watch: {},
