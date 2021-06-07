@@ -1,7 +1,7 @@
 <template>
   <div class="classify">
     <div class="header">
-      <div class="backBtn"></div>
+      <div class="backBtn" @click="back"></div>
       <div class="seach">
         <i></i>
         <input type="text" />
@@ -16,16 +16,21 @@
         @click-nav="clickNav"
       >
         <template #content>
-          <ul class="history">
-            <li></li>
-          </ul>
-          <h4>热卖商品</h4>
-          <ul class="hotlist">
-            <li v-for="item in goodsList" :key="item._id">
-              <van-image :src="item.coverImg" width="64" />
-              <span>{{ item.productCategory.name }}</span>
-            </li>
-          </ul>
+          <div class="history">
+            <h3>浏览足迹</h3>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+          <div class="hotlist">
+            <h3>热卖商品</h3>
+            <ul>
+              <li v-for="item in goodsList" :key="item._id" @click="goSeach">
+                <van-image :src="item.coverImg" width="64" />
+                <span>{{ item.productCategory.name }}</span>
+              </li>
+            </ul>
+          </div>
         </template>
       </van-tree-select>
     </div>
@@ -82,10 +87,19 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    //点击获取商品
     async clickNav(index) {
       const result = await reqProducts({ page: index + 1, per: 20 });
       console.log(result.data.products);
       this.goodsList = result.data.products;
+    },
+    //去商品列表页面
+    async goSeach() {
+      this.$router.push("/seachlist");
+    },
+    //返回上一页
+    async back() {
+      this.$router.back();
     },
   },
   created() {
