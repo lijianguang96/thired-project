@@ -23,92 +23,106 @@
 
     <div class="banner">
       <van-swipe @change="onChange">
-        <van-swipe-item>
-          <img src="../../assets/xie.webp" alt="" />
+        <van-swipe-item v-for="i in 4" :key="i.id">
+          <img :src="pic.coverImg" alt="" />
         </van-swipe-item>
-
         <template #indicator>
           <div class="custom-indicator">{{ current + 1 }}/4</div>
         </template>
       </van-swipe>
-      <div>￥ <span>123</span> <span>降价提醒</span><span>收藏</span></div>
-      <div>商品名字</div>
-    </div>
-
-    <div class="fangxingou">
-      <span><img src="../../assets/fangxingou.png" alt=""/></span>
-      <span>免费上门取退</span>
-      <span> <van-icon name="weapp-nav"/></span>
-    </div>
-
-    <div>
-      <span>优惠</span>
-      <span class="coupon">优惠</span>
-      <span class="coupon">优惠</span>
-      <span class="coupon">优惠</span>
-      <span> <van-icon name="weapp-nav"/></span>
-    </div>
-
-    <div>
-      <span>已选</span>
-      <span> <van-icon name="weapp-nav"/></span>
-    </div>
-
-    <div>
-      <span>送至</span>
-      <span> <van-icon name="weapp-nav"/></span>
-    </div>
-
-    <div>
-      <span>运费</span>
-      <span>在线支付免运费</span>
-    </div>
-
-    <div>
-      <span>商家发货&售后</span>
-      <span>7天无理由退货</span>
-      <span>运送费险</span>
-      <span> <van-icon name="weapp-nav"/></span>
-    </div>
-
-    <!-- 评价 -->
-
-    <div>
-      <div>
-        <span>评价 100+</span>
-        <span>好评度 100%</span>
+      <div class="price">
+        <div>
+          <span class="rmb">￥</span>
+          <span class="color">{{ pic.price }}</span>
+        </div>
+        <div class="right">
+          <span>
+            <span class="fz"><van-icon name="gold-coin-o"/></span>
+            <span class="fz"><van-icon name="label-o"/></span>
+            <br />
+            <span>降价提醒</span>
+            <span>收藏</span>
+          </span>
+        </div>
       </div>
-      <div>
-        <span>穿着舒适</span>
-        <span>穿着舒适</span>
-        <span>穿着舒适</span>
-      </div>
-      <div>
-        <span>穿着舒适</span>
-        <span>穿着舒适</span>
-        <span>穿着舒适</span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>
-        <span><img src="../../assets/fangxingou.png" alt=""/></span>s
-      </div>
-      <p>用户1</p>
+      <div class="p-name">{{ pic.name }}</div>
     </div>
 
-    <!-- 详情 -->
-    <div>
-      <van-tabs v-model="pIntroduct">
-        <van-tab title="商品介绍" name="i">内容 1</van-tab>
-        <van-tab title="规格参数" name="g">内容 2</van-tab>
-        <van-tab title="售后保障" name="s">内容 3</van-tab>
-      </van-tabs>
-    </div>
+    <div class="margin">
+      <div class="fangxingou">
+        <img src="../../assets/fangxingou.png" alt="" />
+        <div>免费上门取退</div>
+        <div><van-icon name="weapp-nav" /></div>
+      </div>
 
+      <div class="youhui">
+        <span>优惠</span>
+        <span class="coupon">优惠</span>
+        <span class="coupon">优惠</span>
+        <span class="coupon">优惠</span>
+        <span> <van-icon name="weapp-nav"/></span>
+      </div>
+
+      <div>
+        <span>已选</span>
+        <span> <van-icon name="weapp-nav"/></span>
+      </div>
+
+      <div>
+        <span>送至</span>
+        <span> <van-icon name="weapp-nav"/></span>
+      </div>
+
+      <div>
+        <span>运费</span>
+        <span>在线支付免运费</span>
+      </div>
+
+      <div>
+        <span>商家发货&售后</span>
+        <span>7天无理由退货</span>
+        <span>运送费险</span>
+        <span> <van-icon name="weapp-nav"/></span>
+      </div>
+
+      <!-- 评价 -->
+
+      <div>
+        <div>
+          <span>评价 100+</span>
+          <span>好评度 100%</span>
+        </div>
+        <div>
+          <span>穿着舒适</span>
+          <span>穿着舒适</span>
+          <span>穿着舒适</span>
+        </div>
+        <div>
+          <span>穿着舒适</span>
+          <span>穿着舒适</span>
+          <span>穿着舒适</span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>s
+        </div>
+        <p>用户1</p>
+      </div>
+
+      <!-- 详情 -->
+      <div>
+        <van-tabs v-model="pIntroduct">
+          <van-tab title="商品介绍" name="i">内容 1</van-tab>
+          <van-tab title="规格参数" name="g">内容 2</van-tab>
+          <van-tab title="售后保障" name="s">内容 3</van-tab>
+        </van-tabs>
+      </div>
+    </div>
     <!-- 底部 -->
 
     <div class="footer">
@@ -116,21 +130,53 @@
         <van-goods-action-icon icon="chat-o" text="客服" dot />
         <van-goods-action-icon icon="cart-o" text="购物车" badge="5" />
         <van-goods-action-icon icon="shop-o" text="店铺" badge="12" />
-        <van-goods-action-button type="warning" text="加入购物车" />
+        <van-goods-action-button
+          type="warning"
+          text="加入购物车"
+          @click="showPopup"
+        />
+
         <van-goods-action-button type="danger" text="立即购买" />
       </van-goods-action>
+      <van-popup
+        v-model="show"
+        closeable
+        round
+        position="bottom"
+        :style="{ height: '70%' }"
+      >
+        <van-card
+          num="1"
+          :price="pic.price"
+          desc="oh,mygod,买它，买它"
+          :title="pic.name"
+          :thumb="pic.coverImg"
+        />
+        <h6>颜色</h6>
+        <van-button
+          round
+          block
+          type="danger"
+          native-type="submit"
+          @click="addCart(pic._id)"
+        >
+          提交
+        </van-button>
+      </van-popup>
     </div>
   </div>
 </template>
 
 <script>
-  // import { reqDetail } from "../../api/detail";
+  import { reqDetail } from "../../api/detail";
+  import { reqAddCart } from "../../api/cart";
 
   export default {
     components: {},
     data() {
       return {
-        pic: [],
+        show: false,
+        pic: {},
         current: 0,
         activeName: "a",
         pIntroduct: "i",
@@ -159,10 +205,20 @@
       onChange(index) {
         this.current = index;
       },
-      // async getPic(id) {
-      //   const result = await reqDetail(id);
-      //   console.log(result);
-      // },
+      // 详情接口
+      async getPic(id) {
+        const result = await reqDetail(id);
+        console.log(result);
+        this.pic = result.data;
+      },
+      async addCart(product, quantity) {
+        console.log(product);
+        const result = await reqAddCart(product, quantity);
+        if (result.status == 200) {
+          this.$toast.success("加入购物车成功");
+        }
+        console.log(result);
+      },
       handleScroll() {
         var scrollTop =
           window.pageYOffset ||
@@ -178,9 +234,12 @@
           this.opacity = 1;
         }
       },
+      showPopup() {
+        this.show = true;
+      },
     },
     created() {
-      // this.getPic();
+      this.getPic(this.$route.params.id);
     },
     mounted() {
       window.addEventListener("scroll", this.handleScroll);
@@ -221,8 +280,6 @@
     margin-left: 0px;
   }
 
-  .van-tabs-top {
-  }
   .menu-box {
     position: absolute;
     top: 25px;
@@ -261,10 +318,78 @@
     width: 375px;
     height: 372px;
   }
-
+  .price {
+    height: 40px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .price .right {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  .price .right span:nth-child(1) {
+    margin-left: -10;
+  }
+  .price .right span:nth-child(2) {
+    margin-left: 40px;
+  }
+  .price .right span:nth-child(4) {
+    margin-left: -20px;
+  }
+  .price .right span:nth-child(5) {
+    margin-left: 20px;
+  }
+  .price .right .fz {
+    font-size: 20px;
+  }
+  .rmb {
+    line-height: 40px;
+    margin-left: 10px;
+    color: red;
+    font-size: 16px;
+  }
+  .color {
+    color: red;
+    font-size: 26px;
+  }
+  .p-name {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 10px;
+  }
+  .margin {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .fangxingou {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fangxingou div:nth-child(2) {
+    margin-left: -190px;
+    color: red;
+  }
   .fangxingou img {
     width: 70px;
     height: 13px;
+  }
+  .youhui {
+    line-height: 38px;
+    height: 38px;
+    background-color: rgb(255, 208, 203);
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .youhui span:nth-child(1) {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .youhui span:nth-child(2) {
+    font-size: 16px;
   }
   .coupon {
     box-sizing: border-box;
