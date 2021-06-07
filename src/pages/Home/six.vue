@@ -68,7 +68,7 @@ export default {
 .six {
   width: 370px;
   min-height: 400px;
-  background: chartreuse;
+  /* background: chartreuse; */
   margin: auto;
 }
 /* .van-grid{
