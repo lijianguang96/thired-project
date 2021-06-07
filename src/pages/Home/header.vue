@@ -18,13 +18,9 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {
-   
-  },
+  methods: {},
   created() {},
-  mounted() {
-   
-  },
+  mounted() {},
 };
 </script>
 <style scoped>
