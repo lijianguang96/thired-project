@@ -24,7 +24,7 @@
         >登录</van-button
       >
     </div>
-    <div class="kong">
+    <div class="kong" v-if="!flag">
       <van-icon size="60" name="shopping-cart-o" />
       <p>登录后可同步购物车中的商品</p>
     </div>
@@ -35,7 +35,7 @@
       >京东秒杀</van-divider
     >
 
-    <div class="mall-seckill">
+    <div class="mall-seckill" v-if="!flag">
       <div class="mall-head">
         <div class="mall-title">京东秒杀</div>
 
@@ -46,7 +46,7 @@
     </div>
 
     <!-- 商品展示部分 -->
-    <div class="good-list" v-if="flag">
+    <div class="good-list">
       <div v-for="item in products" :key="item._id" class="goods">
         <van-checkbox
           v-model="item.checked"
@@ -71,6 +71,16 @@
         </div>
       </div>
     </div>
+    <!-- 登录后token存在页面 -->
+
+    <div class="kong" v-if="flag1">
+      <van-icon size="60" name="shopping-cart-o" />
+      <p>快去加入商品吧</p>
+    </div>
+    <van-divider
+      :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
+      >猜你喜欢</van-divider
+    >
 
     <!-- 全选结算部分 -->
     <van-submit-bar
@@ -78,6 +88,7 @@
       button-text="立即结算"
       v-show="!kong"
       @submit="onSubmit"
+      v-if="flag1"
     >
       <van-checkbox v-model="checked">全选</van-checkbox>
       <van-icon name="delete" v-show="checked" @click="dels" />
@@ -101,6 +112,7 @@ export default {
       flag: getToken(),
       products: [],
       kong: false,
+      flag1: false,
     };
   },
   computed: {
@@ -140,11 +152,18 @@ export default {
     login() {
       this.$router.push("/login");
     },
+    //请求列表
     async getCartlist() {
       const result = await reqCartlist();
       console.log(result);
       this.products = result.data;
+      if (this.products.length == 0) {
+        this.flag1 = false;
+      } else {
+        this.flag1 = true;
+      }
     },
+
     // 添加
     async add(product, quantity) {
       const result = await reqAddCart({ product, quantity });
