@@ -15,6 +15,20 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/search",
+      component: () => import("../pages/Search"),
+      meta: {
+        footerShow: false,
+      },
+    },
+    {
+      path: "/searchlist",
+      component: () => import("../pages/Search"),
+      meta: {
+        footerShow: false,
+      },
+    },
+    {
       path: "/detail/:id",
       component: () => import("../pages/Detail"),
       meta: {
