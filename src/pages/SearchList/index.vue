@@ -1,5 +1,5 @@
 <template>
-  <div class="">短信登录</div>
+  <div class="">searchlist页面</div>
 </template>
 
 <script>

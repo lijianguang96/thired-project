@@ -1,7 +1,7 @@
 <template>
   <div class="classify">
     <div class="header">
-      <div class="backBtn"></div>
+      <div class="backBtn" @click="back"></div>
       <div class="seach">
         <i></i>
         <input type="text" />
@@ -9,19 +9,30 @@
       <div class="more"></div>
     </div>
     <div class="content">
-      <div class="aside">
-        <van-sidebar v-model="activeKey" @change="onChange">
-          <van-sidebar-item :title="v" v-for="v in list" :key="v._id" />
-        </van-sidebar>
-      </div>
-      <div class="goods">
-        <ul>
-          <li v-for="item in goodsList" :key="item._id">
-            <img :src="item.coverImg" alt="" />
-            <span>{{ item.productCategory.name }}</span>
-          </li>
-        </ul>
-      </div>
+      <van-tree-select
+        height="150vw"
+        :items="items"
+        :main-active-index.sync="active"
+        @click-nav="clickNav"
+      >
+        <template #content>
+          <div class="history">
+            <h3>浏览足迹</h3>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+          <div class="hotlist">
+            <h3>热卖商品</h3>
+            <ul>
+              <li v-for="item in goodsList" :key="item._id" @click="goSeach">
+                <van-image :src="item.coverImg" width="64" />
+                <span>{{ item.productCategory.name }}</span>
+              </li>
+            </ul>
+          </div>
+        </template>
+      </van-tree-select>
     </div>
   </div>
 </template>
@@ -31,61 +42,76 @@ export default {
   components: {},
   data() {
     return {
-      goodsList: [],
-      activeKey: 0,
-      value: "",
-      list: [
-        "热门推荐",
-        "手机数码",
-        "电脑办公",
-        "家用电器",
-        "美妆护肤",
-        "汽车生活",
-        "京东超市",
-        "男装",
-        "男鞋",
-        "女装",
-        "女鞋",
-        "运动户外",
-        "内衣配饰",
-        "酒水饮料",
-        "家具家装",
-        "箱包手袋",
-        "钟表珠宝",
-        "玩具乐器",
-        "医药保健",
-        "宠物生活",
-        "礼品鲜花",
-        "农资绿植",
-        "生活旅行",
-        "奢侈品",
-        "京东国际",
-        "艺术邮币",
-        "二手商品",
-        "特产馆",
-        "京东金融",
-        "国际名牌",
-        "拍卖",
-        "房产",
-        "工业品",
+      active: 0,
+      items: [
+        { text: "热门推荐" },
+        { text: "手机数码" },
+        { text: "电脑办公" },
+        { text: "家用电器" },
+        { text: "美妆护肤" },
+        { text: "汽车生活" },
+        { text: "京东超市" },
+        { text: "男装" },
+        { text: "男鞋" },
+        { text: "女装" },
+        { text: "女鞋" },
+        { text: "运动户外" },
+        { text: "内衣配饰" },
+        { text: "酒水饮料" },
+        { text: "家具家装" },
+        { text: "箱包手袋" },
+        { text: "钟表珠宝" },
+        { text: "玩具乐器" },
+        { text: "医药保健" },
+        { text: "宠物生活" },
+        { text: "京东超市" },
+        { text: "礼品鲜花" },
+        { text: "农资绿植" },
+        { text: "生活旅行" },
+        { text: "奢侈品" },
+        { text: "京东国际" },
+        { text: "艺术邮币" },
+        { text: "二手商品" },
+        { text: "特产馆" },
+        { text: "京东金融" },
+        { text: "国际名牌" },
+        { text: "拍卖" },
+        { text: "房产" },
+        { text: "工业品" },
       ],
+      goodsList: [],
+
+      value: "",
     };
   },
   computed: {},
   watch: {},
   methods: {
-    async onChange(index) {
-      const result = await reqProducts({ page: index + 1 });
+    //点击获取商品
+    async clickNav(index) {
+      const result = await reqProducts({ page: index + 1, per: 20 });
       console.log(result.data.products);
       this.goodsList = result.data.products;
     },
+    //去商品列表页面
+    async goSeach() {
+      this.$router.push("/seachlist");
+    },
+    //返回上一页
+    async back() {
+      this.$router.back();
+    },
   },
-  created() {},
+  created() {
+    this.clickNav(0);
+  },
   mounted() {},
 };
 </script>
 <style scoped>
 .header {
+  width: 100%;
+  min-height: 40px;
   position: fixed;
   border-bottom: 1px solid #e5e5e5;
   min-height: 44px;
@@ -105,7 +131,7 @@ export default {
 }
 
 .seach {
-  width: 330px;
+  width: 290px;
   float: left;
   border: none;
   border-radius: 15px;
@@ -137,11 +163,7 @@ export default {
   background-size: 200px;
   margin: 8px 0 0 15px;
 }
-.header {
-  width: 100%;
-  min-height: 40px;
-  /* background: pink; */
-}
+
 .more {
   width: 40px;
   height: 40px;
@@ -158,6 +180,9 @@ export default {
   width: 100%;
   height: auto;
   background: powderblue;
+  position: absolute;
+  top: 56px;
+  left: 0;
   /* overflow: hidden; */
 }
 .aside {
@@ -169,7 +194,6 @@ export default {
   top: 50px;
   left: 0;
   overflow-y: auto;
-  /* overflow-x: hidden; */
 }
 .goods {
   width: 300px;
@@ -179,17 +203,23 @@ export default {
   left: 90px;
   overflow-y: auto;
 }
-.goods img {
+.van-image__img {
   width: 70px;
   height: 70px;
 }
-.goods ul {
+.van-tree-select__content ul {
   display: flex;
   flex-wrap: wrap;
 }
-.goods span {
+.van-tree-select__content li {
   width: 32.8%;
-  float: left;
+  margin: 10px 0;
+}
+.van-tree-select__content span {
+  font-size: 12px;
+  display: flex;
   text-align: center;
+  justify-content: center;
+  margin-top: 10px;
 }
 </style>
