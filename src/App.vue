@@ -20,10 +20,11 @@ export default {
     // Footer,
   },
   created() {
-    const userInfo = localStorage.getItem("info")
-      ? JSON.parse(localStorage.getItem("info"))
+    const userList = localStorage.getItem("userList")
+      ? JSON.parse(localStorage.getItem("userList"))
       : "";
-    this.$store.commit("getuser", userInfo);
+    console.log(userList);
+    this.$store.commit("getuser", userList);
   },
 };
 </script>

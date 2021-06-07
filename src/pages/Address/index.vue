@@ -1,16 +1,108 @@
 <template>
-  <div class="">地址页面</div>
+  <div class="">
+    <van-address-edit
+      :area-list="areaList"
+      show-postal
+      show-delete
+      show-set-default
+      show-search-result
+      :search-result="searchResult"
+      :area-columns-placeholder="['请选择', '请选择', '请选择']"
+      @save="onSave"
+      @delete="onDelete"
+      @change-detail="onChangeDetail"
+    />
+  </div>
 </template>
 
 <script>
+import { Toast } from "vant";
+import { areaList } from "@vant/area-data";
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      areaList,
+      id: localStorage.getItem("id") || 1,
+      searchResult: [],
+      userList: localStorage.getItem("userList")
+        ? JSON.parse(localStorage.getItem("userList"))
+        : [],
+    };
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    onSave(e) {
+      console.log(e);
+      if (e.city == e.province) {
+        const info = {
+          id: this.id,
+          name: e.name,
+          regions: e.city,
+          address: e.county + e.addressDetail,
+          tel: e.tel,
+        };
+        this.userList.push(info);
+        localStorage.setItem("userList", JSON.stringify(this.userList));
+        this.$store.commit("getuser", this.userList);
+        Toast("保存成功");
+        this.id++;
+        localStorage.setItem("id", this.id);
+
+        this.$router.back();
+      } else {
+        const info = {
+          id: this.id,
+          name: e.name,
+          regions: e.province + e.city,
+          address: e.county + e.addressDetail,
+          tel: e.tel,
+        };
+        this.userList.push(info);
+        localStorage.setItem("userList", JSON.stringify(this.userList));
+        this.$store.commit("getuser", this.userList);
+        this.id++;
+        localStorage.setItem("id", this.id);
+        Toast("保存成功");
+        this.$router.back();
+      }
+
+      /* 
+      addressDetail: "朝阳街道东大厦1230"
+      areaCode: "110101"
+      city: "北京市"
+      country: ""
+      county: "东城区"
+      isDefault: false
+      name: "小虾米"
+      postalCode: "000111"
+      province: "北京市"
+      tel: "13318566345"
+      info: {
+            receiver: "",
+            regions: "",
+            address: "",
+        }
+       */
+    },
+    onDelete() {
+      Toast("delete");
+    },
+    onChangeDetail(val) {
+      console.log(val);
+      //   if (val) {
+      //     this.searchResult = [
+      //       {
+      //         name: "黄龙万科中心",
+      //         address: "杭州市西湖区",
+      //       },
+      //     ];
+      //   } else {
+      //     this.searchResult = [];
+      //   }
+    },
+  },
   created() {},
   mounted() {},
 };

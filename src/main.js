@@ -4,6 +4,11 @@ import router from "./router"
 import Vant from 'vant';
 import store from './store'
 import 'vant/lib/index.css';
+import { GoodsAction, GoodsActionIcon, GoodsActionButton } from 'vant';
+
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
 Vue.use(Vant);
 Vue.config.productionTip = false
 
