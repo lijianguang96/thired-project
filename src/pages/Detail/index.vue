@@ -1,233 +1,284 @@
 <template>
-  <div class="desc" v-if="obj">
-    <div class="img">
-      <img :src="obj.coverImg" alt="" />
+  <div class="desc">
+    <div class="detail-top" :style="{ opacity: opacity }">
+      <van-icon name="revoke" class="icon-top" @click="back" />
+      <van-tabs v-model="activeName" class="van-tabs">
+        <van-tab title="商品" name="a"></van-tab>
+        <van-tab title="评价" name="b"></van-tab>
+        <van-tab title="详情" name="c"></van-tab>
+        <van-tab title="推荐" name="d"></van-tab>
+      </van-tabs>
+      <van-icon name="weapp-nav" class="icon-top" @click="toggle(flag)">
+        <div class="menu-box" v-if="flag">
+          <span class="content">◆</span>
+          <ul @click.stop="">
+            <li v-for="i in items" :key="i.id">
+              <van-icon :name="i.icon" />
+              <span class="mr">{{ i.name }} </span>
+            </li>
+          </ul>
+        </div>
+      </van-icon>
     </div>
-    <div class="seckill">
-      <span class="jdms">京东秒杀</span>
-      <span class="jdpr">￥{{ obj.price }}</span>
-      <div class="time">
-        <p>距离结束还剩</p>
-        <p>
-          <van-count-down :time="time">
-            <template #default="timeData">
-              <span class="block">{{ timeData.hours }}</span>
-              <span class="colon">:</span>
-              <span class="block">{{ timeData.minutes }}</span>
-              <span class="colon">:</span>
-              <span class="block">{{ timeData.seconds }}</span>
-            </template>
-          </van-count-down>
-        </p>
-      </div>
+
+    <div class="banner">
+      <van-swipe @change="onChange">
+        <van-swipe-item>
+          <img src="../../assets/xie.webp" alt="" />
+        </van-swipe-item>
+
+        <template #indicator>
+          <div class="custom-indicator">{{ current + 1 }}/4</div>
+        </template>
+      </van-swipe>
+      <div>￥ <span>123</span> <span>降价提醒</span><span>收藏</span></div>
+      <div>商品名字</div>
     </div>
-    <div class="name">
-      {{ obj.name }}
+
+    <div class="fangxingou">
+      <span><img src="../../assets/fangxingou.png" alt=""/></span>
+      <span>免费上门取退</span>
+      <span> <van-icon name="weapp-nav"/></span>
     </div>
-    <div class="other-one">
+
+    <div>
+      <span>优惠</span>
+      <span class="coupon">优惠</span>
+      <span class="coupon">优惠</span>
+      <span class="coupon">优惠</span>
+      <span> <van-icon name="weapp-nav"/></span>
+    </div>
+
+    <div>
+      <span>已选</span>
+      <span> <van-icon name="weapp-nav"/></span>
+    </div>
+
+    <div>
+      <span>送至</span>
+      <span> <van-icon name="weapp-nav"/></span>
+    </div>
+
+    <div>
+      <span>运费</span>
+      <span>在线支付免运费</span>
+    </div>
+
+    <div>
+      <span>商家发货&售后</span>
+      <span>7天无理由退货</span>
+      <span>运送费险</span>
+      <span> <van-icon name="weapp-nav"/></span>
+    </div>
+
+    <!-- 评价 -->
+
+    <div>
       <div>
-        <span>优惠</span>
-        <span><van-tag type="danger">满199减20</van-tag></span>
-        <span><van-tag type="danger">满299减40</van-tag></span>
-        <span><van-tag type="danger">满1000减100</van-tag></span>
+        <span>评价 100+</span>
+        <span>好评度 100%</span>
       </div>
       <div>
-        <span><van-tag type="danger">限购</van-tag></span>
-        <span>购买不超过5件</span>
+        <span>穿着舒适</span>
+        <span>穿着舒适</span>
+        <span>穿着舒适</span>
       </div>
-      <div><span>白条</span> <span>3期免息</span></div>
+      <div>
+        <span>穿着舒适</span>
+        <span>穿着舒适</span>
+        <span>穿着舒适</span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>
+        <span><img src="../../assets/fangxingou.png" alt=""/></span>s
+      </div>
+      <p>用户1</p>
     </div>
-    <van-goods-action>
-      <van-goods-action-icon icon="chat-o" text="客服" color="#ee0a24" />
-      <van-goods-action-icon icon="cart-o" text="购物车" />
-      <van-goods-action-icon icon="star" text="已收藏" color="#ff5000" />
-      <van-goods-action-button
-        type="warning"
-        text="加入购物车"
-        @click="addcart(obj._id, 1)"
-      />
-      <van-goods-action-button type="danger" text="立即购买" @click="nowpay" />
-    </van-goods-action>
+
+    <!-- 详情 -->
+    <div>
+      <van-tabs v-model="pIntroduct">
+        <van-tab title="商品介绍" name="i">内容 1</van-tab>
+        <van-tab title="规格参数" name="g">内容 2</van-tab>
+        <van-tab title="售后保障" name="s">内容 3</van-tab>
+      </van-tabs>
+    </div>
+
+    <!-- 底部 -->
+
+    <div class="footer">
+      <van-goods-action>
+        <van-goods-action-icon icon="chat-o" text="客服" dot />
+        <van-goods-action-icon icon="cart-o" text="购物车" badge="5" />
+        <van-goods-action-icon icon="shop-o" text="店铺" badge="12" />
+        <van-goods-action-button type="warning" text="加入购物车" />
+        <van-goods-action-button type="danger" text="立即购买" />
+      </van-goods-action>
+    </div>
   </div>
 </template>
 
 <script>
-import { reqDetail } from "../../api/detail";
-import { reqAddCart } from "../../api/cart.js";
-import { Toast } from "vant";
-export default {
-  components: {},
-  data() {
-    return {
-      obj: null,
-      id: "",
-      time: 60 * 60 * 60 * 1000,
-    };
-  },
-  computed: {},
-  watch: {},
-  methods: {
-    async getDetail(id) {
-      const result = await reqDetail(id);
-      console.log(result);
-      this.obj = result.data;
-    },
-    async addcart(product, quantity) {
-      // product   商品id
-      //   quantity  数量(默认值1)
-      const result = await reqAddCart({ product, quantity });
-      console.log(result);
-      Toast("加入购物车成功");
-      this.$router.push("/cart");
-    },
-    nowpay() {
-      Toast("立即购买");
-    },
-    onClickLeft() {
-      this.$router.back();
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
-  },
-  created() {
-    this.id = this.$route.params.id;
-    console.log(this.id);
-    this.getDetail(this.id);
-  },
-  mounted() {},
-};
-</script>
-<style scoped>
-.img {
-  width: 375px;
-  height: 375px;
-  /* background: chartreuse; */
-  margin: auto;
-}
-.img img {
-  width: 375px;
-  height: 375px;
-}
-.seckill {
-  width: 375px;
-  height: 53px;
-  background: rgb(255, 12, 95);
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-.seckill .jdms {
-  display: block;
-  background: red;
-  color: #fff;
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-  border-radius: 5px;
-  text-align: center;
-}
-.seckill .jdpr {
-  display: block;
-  font-size: 24px;
-  color: #fff;
-  width: 100px;
-  height: 30px;
-  margin-left: 10px;
-}
+  // import { reqDetail } from "../../api/detail";
 
-.time {
-  width: 108px;
-  height: 53px;
-  text-align: center;
-  margin-left: 117px;
-  background: rgb(255, 234, 233);
-}
-.time p:nth-child(1) {
-  width: 100%;
-  height: 12px;
-  color: #f71471;
-  padding: 5px 0;
-}
-.colon {
-  margin: 0 4px;
-  color: #ee0a24;
-}
-.block {
-  width: 40px;
-  color: #fff;
-  font-size: 12px;
-  text-align: center;
-  background-color: #ee0a24;
-}
-.name {
-  width: 339px;
-  height: 62px;
-  color: #262626;
-  font-size: 16px;
-  font-weight: 900;
-  text-indent: 2em;
-}
-.other-one {
-  width: 100%;
-  height: 128px;
-  background: rgb(242, 242, 242);
-  border-radius: 10px;
-}
-.other-one div:nth-child(1) {
-  width: 339px;
-  height: 20px;
-  padding-top: 20px;
-  /* background: crimson; */
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  border-bottom: solid 1px #fff;
-  padding-bottom: 2px;
-}
-.other-one div:nth-child(1) span {
-  padding: 0 5px;
-  margin-left: 5px;
-  text-align: center;
-}
-.other-one div:nth-child(1) > span:nth-child(1) {
-  font-size: 16px;
-}
-.other-one div:nth-child(2) {
-  width: 339px;
-  padding-top: 20px;
-  height: 30px;
-  /* background: fuchsia; */
-  margin: auto;
-  display: flex;
-  justify-content: flex-start;
-}
-.other-one div:nth-child(2) span {
-  margin-left: 30px;
-}
-/* .other-one div:nth-child(2) > span:nth-child(1) {
-  display: inline;
-  width: 50px;
-  height: 20px;
-} */
-/* .other-one div:nth-child(2) > span:nth-child(2) {
-  display: block; 
-   width: 348px;
-  height: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} */
-.other-one div:nth-child(3) {
-  width: 339px;
-  height: 43px;
-  font-size: 14px;
-  /* background: #f71471; */
-  margin: auto;
-  color: #262626;
-}
-.other-one div:nth-child(3) span {
-  margin-left: 10px;
-}
+  export default {
+    components: {},
+    data() {
+      return {
+        pic: [],
+        current: 0,
+        activeName: "a",
+        pIntroduct: "i",
+        flag: false,
+        opacity: 0,
+        scrollTop: 0,
+        items: [
+          { name: "首页", icon: "home-o" },
+          { name: "分类搜索", icon: "search" },
+          { name: "我的网站", icon: "user-o" },
+          { name: "浏览记录", icon: "eye-o" },
+          { name: "我的关注", icon: "like-o" },
+          { name: "分享", icon: "share-o" },
+        ],
+      };
+    },
+    computed: {},
+    watch: {},
+    methods: {
+      back() {
+        this.$router.go(-1);
+      },
+      toggle(flag) {
+        this.flag = !flag;
+      },
+      onChange(index) {
+        this.current = index;
+      },
+      // async getPic(id) {
+      //   const result = await reqDetail(id);
+      //   console.log(result);
+      // },
+      handleScroll() {
+        var scrollTop =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop;
+
+        if (scrollTop < 200) {
+          // 当滚动距离小于200时，计算导航透明度，可以考虑修改为每20增加0.1
+          // this.opacity = (scrollTop / 200).toFixed(1);
+          this.opacity = scrollTop / 200;
+          return;
+        } else {
+          this.opacity = 1;
+        }
+      },
+    },
+    created() {
+      // this.getPic();
+    },
+    mounted() {
+      window.addEventListener("scroll", this.handleScroll);
+    },
+  };
+</script>
+<style scoped lang="css">
+  .desc {
+    position: relative;
+  }
+  .detail-top {
+    background-color: white;
+    width: 375px;
+    height: 45px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .icon-top {
+    margin-top: 15px;
+    position: relative;
+    /* display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999; */
+  }
+
+  .van-tabs >>> .van-tab {
+    margin-left: 20px;
+  }
+  .van-tabs >>> .van-tab:nth-child(1) {
+    margin-left: 0px;
+  }
+
+  .van-tabs-top {
+  }
+  .menu-box {
+    position: absolute;
+    top: 25px;
+    left: -95px;
+    width: 125px;
+    height: 245px;
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    z-index: 999;
+  }
+  .content {
+    color: black;
+    font-size: 20px;
+    position: absolute;
+    top: -13px;
+    left: 98px;
+  }
+  .menu-box li {
+    line-height: 16px;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .custom-indicator {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+  .banner img {
+    width: 375px;
+    height: 372px;
+  }
+
+  .fangxingou img {
+    width: 70px;
+    height: 13px;
+  }
+  .coupon {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    line-height: normal;
+    margin-right: 6px;
+    padding: 0 6px;
+    border: 1px solid #ff8373;
+    border-radius: 2.5px;
+    height: 15px;
+    color: #f2270c;
+    font-size: 10px;
+  }
 </style>
