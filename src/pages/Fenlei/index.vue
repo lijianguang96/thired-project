@@ -4,9 +4,19 @@
       <div class="backBtn" @click="back"></div>
       <div class="seach">
         <i></i>
-        <input type="text" />
+        <input type="text" @click="goToSeach" />
       </div>
-      <div class="more"></div>
+      <div class="more" @click="toggle(flag)">
+        <div class="menu-box" v-if="flag">
+          <span class="triangle">◆</span>
+          <ul @click.stop>
+            <li v-for="i in navlist" :key="i.id">
+              <van-icon :name="i.icon" />
+              <span class="mr">{{ i.name }} </span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="content">
       <van-tree-select
@@ -19,13 +29,19 @@
           <div class="history">
             <h3>浏览足迹</h3>
             <ul>
-              <li></li>
+              <li
+                v-for="item in historyList"
+                :key="item._id"
+                @click="goSearchDetail(item)"
+              >
+                {{ item }}
+              </li>
             </ul>
           </div>
           <div class="hotlist">
             <h3>热卖商品</h3>
             <ul>
-              <li v-for="item in goodsList" :key="item._id" @click="goSeach">
+              <li v-for="item in goodsList" :key="item._id" @click="goSeach()">
                 <van-image :src="item.coverImg" width="64" />
                 <span>{{ item.productCategory.name }}</span>
               </li>
@@ -38,11 +54,21 @@
 </template>
 <script>
 import { reqProducts } from "../../api/products";
+// import { reqDetail } from "../../api/detail";
 export default {
   components: {},
   data() {
     return {
+      historyList: [],
       active: 0,
+      flag: false,
+      navlist: [
+        { name: "首页", icon: "home-o" },
+        { name: "分类搜索", icon: "search" },
+        { name: "购物车", icon: "cart-o" },
+        { name: "我的京东", icon: "user-o" },
+        { name: "浏览记录", icon: "eye-o" },
+      ],
       items: [
         { text: "热门推荐" },
         { text: "手机数码" },
@@ -80,7 +106,6 @@ export default {
         { text: "工业品" },
       ],
       goodsList: [],
-
       value: "",
     };
   },
@@ -92,14 +117,30 @@ export default {
       const result = await reqProducts({ page: index + 1, per: 20 });
       console.log(result.data.products);
       this.goodsList = result.data.products;
+      console.log(this.goodsList);
+    },
+    // 跳转搜索页面
+    goToSeach() {
+      this.$router.push("/search");
     },
     //去商品列表页面
-    async goSeach() {
-      this.$router.push("/seachlist");
+    goSeach() {
+      console.log(this.goodsList);
+      let img = this.goodsList.coverImg;
+      let historyList = JSON.parse(localStorage.getItem("hisList")) || [];
+      historyList.push({ img });
+      console.log(historyList);
+      localStorage.setItem("hisList", JSON.stringify(historyList));
+      this.$router.push("/SearchList");
     },
+
     //返回上一页
     async back() {
       this.$router.back();
+    },
+    // 切换
+    toggle(flag) {
+      this.flag = !flag;
     },
   },
   created() {
@@ -175,6 +216,35 @@ export default {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAAAMBAMAAAAzCuYOAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAASUExURUdwTF1fal1fa11famZmcF1fanZMvqUAAAAFdFJOUwDD82UZbfC98gAAAEtJREFUGNNjYGAWUjRgQACsXBbR0NBAB7ggdi5jKBAIwEWxc01BVDBcFDtXFEQFwkWxc1VBVBBcFDuXKEVEWUeUw4kKAqICk5hoAQAuJDMBhQy+8AAAAABJRU5ErkJggg==)
     no-repeat 50%;
   background-size: 20px;
+}
+.menu-box {
+  position: absolute;
+  top: 61px;
+  left: 249px;
+  width: 125px;
+  height: 245px;
+  color: white;
+  border-radius: 4px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+}
+.triangle {
+  color: black;
+  font-size: 28px;
+  position: absolute;
+  top: -13px;
+  left: 98px;
+}
+.van-icon {
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.menu-box li {
+  line-height: 16px;
+  margin-top: 20px;
+  font-size: 16px;
 }
 .content {
   width: 100%;
