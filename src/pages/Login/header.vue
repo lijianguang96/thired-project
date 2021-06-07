@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <span class="icon"><van-icon name="arrow-left" /></span>
+    <span class="icon" @click="toshouye"><van-icon name="arrow-left" /></span>
     <span class="title">京东登录注册</span>
   </div>
 </template>
@@ -14,7 +14,11 @@ export default {
   computed: {},
   watch: {},
 
-  methods: {},
+  methods: {
+    toshouye() {
+      this.$router.push("/");
+    },
+  },
   created() {},
   mounted() {},
   beforeCreate() {},
