@@ -3,17 +3,20 @@
     <div class="banner">
       <Header></Header>
       <Infr></Infr>
+      <Footer></Footer>
     </div>
   </div>
 </template>
 
 <script>
 import Header from "./header";
-import Infr from "./infr.vue";
+import Infr from "./infr";
+import Footer from "./footer";
 export default {
   components: {
     Header,
     Infr,
+    Footer,
   },
   data() {
     return {};
