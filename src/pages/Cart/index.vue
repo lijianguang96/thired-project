@@ -3,7 +3,24 @@
     <header class="header">
       <span @click="back">返回</span>
       <p>购物车</p>
-      <div class="list">
+      <van-popover
+        v-model="showPopover"
+        theme="dark"
+        trigger="click"
+        :actions="actions"
+      >
+        <template #reference>
+          <van-icon
+            class="list2"
+            name="ellipsis"
+            v-on:click="toggle()"
+            size="40px
+          "
+          />
+          <!-- <van-button type="primary">更多</van-button> -->
+        </template>
+      </van-popover>
+      <!-- <div class="list">
         <van-icon class="list2" name="ellipsis" v-on:click="toggle()" />
         <van-list v-show="isShow" class="list1">
           <van-cell
@@ -13,7 +30,7 @@
             class="list3"
           />
         </van-list>
-      </div>
+      </div> -->
     </header>
 
     <!-- 未登录部分 -->
@@ -45,7 +62,7 @@
       <div class="mall-sider"></div>
     </div>
 
-    <!-- 商品展示部分 -->
+    <!-- 购物车-商品展示部分 -->
     <div class="good-list">
       <div v-for="item in products" :key="item._id" class="goods">
         <van-checkbox
@@ -55,32 +72,65 @@
           :id="item.product._id"
           aria-checked="true"
         ></van-checkbox>
+
         <img :src="item.product.coverImg" alt="" />
         <div class="txt">
           <div class="pro-name">{{ item.product.name }}</div>
-          <div class="pro-price">{{ item.product.price }}</div>
+          <div class="pro-price">价格{{ item.product.price }}</div>
           <div class="a-r">
-            <span @click="add(item.product._id, 1)">+</span>
+            <!-- <span @click="add(item.product._id, 1)">+</span>
 
-            <div>{{ item.quantity }}</div>
+            {{ item.quantity }}
 
             <span @click="item.quantity > 1 && reduce(item.product._id, -1)"
               >-</span
-            >
+            > -->
+            <van-stepper
+              v-model="item.quantity"
+              @minus="reduce(item.product._id, -1)"
+              @plus="add(item.product._id, 1)"
+            />
+            <!-- <van-stepper
+              v-model="item.quantity"
+              @minus="item.quantity > 1 && reduce(item.product._id, -1)"
+              @plus="add(item.product._id, 1)"
+              step="1"
+            /> -->
           </div>
         </div>
       </div>
     </div>
     <!-- 登录后token存在页面 -->
 
-    <div class="kong" v-if="flag1">
+    <div class="kong" v-if="!flag1">
       <van-icon size="60" name="shopping-cart-o" />
       <p>快去加入商品吧</p>
     </div>
+
+    <!-- 猜你喜欢部分 -->
     <van-divider
       :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
       >猜你喜欢</van-divider
     >
+    <van-grid :column-num="2" icon-size="150">
+      <van-grid-item
+        v-for="item in products1"
+        :key="item._id"
+        :icon="item.coverImg"
+        :text="item.name"
+        @click="godetail(item._id)"
+      />
+    </van-grid>
+    <!-- <div class="love" v-for="item in products1" :key="item._id">
+      <van-grid :column-num="3">
+        <van-grid-item
+          v-for="value in 6"
+          :key="value"
+          icon="photo-o"
+          text="文字"
+        />
+      </van-grid>
+    </div> -->
 
     <!-- 全选结算部分 -->
     <van-submit-bar
@@ -99,7 +149,7 @@
 <script>
 import { getToken } from "../../utils/auth";
 import { reqCartlist, reqAddCart, reqDelAll, reqOrder } from "../../api/cart";
-// import { reqAddCart } from "../../api/products";
+import { reqProducts } from "../../api/products";
 export default {
   components: {},
   data() {
@@ -111,8 +161,12 @@ export default {
       // finished: false,
       flag: getToken(),
       products: [],
+      products1: [],
       kong: false,
       flag1: false,
+
+      showPopover: false,
+      actions: [{ text: "选项一" }, { text: "选项二" }, { text: "选项三" }],
     };
   },
   computed: {
@@ -152,7 +206,7 @@ export default {
     login() {
       this.$router.push("/login");
     },
-    //请求列表
+    //请求购物车列表
     async getCartlist() {
       const result = await reqCartlist();
       console.log(result);
@@ -163,29 +217,40 @@ export default {
         this.flag1 = true;
       }
     },
+    //请求猜你喜欢列表
+    async getProlist() {
+      const result = await reqProducts();
+      console.log(111);
+      console.log(result);
+      this.products1 = result.data.products;
+      // if (this.products.length == 0) {
+      // } else {
+      // }
+    },
 
     // 添加
     async add(product, quantity) {
       const result = await reqAddCart({ product, quantity });
       console.log(result);
+      console.log(product, quantity);
+
       // 这里并没有重新调用获取购物车列表接口,而是在this.products里面进行数据减少或者增加
-      this.products.forEach((data) => {
-        if (data.product._id == product) {
-          data.quantity = data.quantity + quantity;
-        }
-      });
+      // this.products.forEach((data) => {
+      //   if (data.product._id == product) {
+      //     data.quantity = data.quantity + quantity;
+      //   }
+      //   console.log(data.product._id);
+      //   console.log(data.quantity);
+      // });
     },
     // 减少
     async reduce(product, quantity) {
       const result = await reqAddCart({ product, quantity });
       console.log(result);
-      // this.getCartlist();
-      // 找到购物当前的id
-      this.products.forEach((data) => {
-        if (data.product._id == product) {
-          data.quantity = data.quantity + quantity;
-        }
-      });
+      console.log(product, quantity);
+    },
+    godetail(id) {
+      this.$router.push("/detail/" + id);
     },
 
     // 生成订单
@@ -240,6 +305,7 @@ export default {
   },
   created() {
     this.getCartlist();
+    this.getProlist();
   },
   mounted() {},
 };
@@ -256,26 +322,26 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.list2 {
+/* .list2 {
   position: relative;
 }
 .list1 {
   width: 100px;
   height: 40px;
-  /* background: chartreuse; */
+ 
   position: absolute;
   z-index: 20;
   right: 20px;
 }
 .list3 {
-  /* width: 150px; */
+ 
   background: black;
   color: #fff;
-}
+} */
 
-.header span {
+/* .header span {
   float: left;
-}
+} */
 * {
   margin: 0;
   padding: 0;
@@ -318,5 +384,21 @@ export default {
 .time2 {
   margin-left: 10px;
   color: red;
+}
+.good-list {
+  width: 100%;
+  min-height: 300px;
+}
+.goods {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 0;
+}
+.goods img {
+  margin: 0 10px;
+  /* width: 50px;
+  height: 50px; */
 }
 </style>
