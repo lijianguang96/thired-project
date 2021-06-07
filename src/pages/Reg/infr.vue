@@ -50,20 +50,33 @@ export default {
 
   methods: {
     async reg(userName, password) {
-      console.log(userName, password);
-      let nickName = "女帝";
-      let avatar =
-        "https://img1.baidu.com/it/u=217736605,3368236980&fm=26&fmt=auto&gp=0.jpg";
-      let result = await reqReg({ userName, password, nickName, avatar });
-      console.log(result);
-      if (result.data.code == "success") {
-        Toast.setDefaultOptions({ duration: 1000 });
-        Toast.success("注册成功");
-        setTimeout(() => {
-          this.$router.push("/login");
-        }, 1000);
+      let aa = document.querySelector(".use").innerHTML;
+      let bb = document.querySelector(".ppp").innerHTML;
+      console.log(aa, bb);
+      if (aa == "用户名可用" && bb == "密码符合规则") {
+        let nickName = "女帝";
+        let avatar =
+          "https://img1.baidu.com/it/u=217736605,3368236980&fm=26&fmt=auto&gp=0.jpg";
+        let result = await reqReg({ userName, password, nickName, avatar });
+        console.log(result);
+        if (result.data.code == "success") {
+          Toast.setDefaultOptions({ duration: 1000 });
+          Toast.success("注册成功");
+          setTimeout(() => {
+            this.$router.push("/login");
+          }, 1000);
+        } else {
+          Toast.fail("注册失败");
+        }
       } else {
-        Toast.fail("注册失败");
+        Toast.setDefaultOptions({ duration: 2000 });
+        if (aa != "用户名可用" && bb != "密码符合规则") {
+          Toast.fail("用户名、密码格式不正确");
+        } else if (aa != "用户名可用") {
+          Toast.fail("用户名格式不正确");
+        } else if (bb != "密码符合规则") {
+          Toast.fail("密码格式不正确");
+        }
       }
     },
     xian() {
@@ -119,7 +132,7 @@ export default {
     },
     testp() {
       if (this.psd) {
-        var regTesta = /[!@#$%^_&*()]/;
+        var regTesta = /(?=.*\d)(?=.*[a-z])(?=.*[@#$%!^*/~`])/;
         if (regTesta.test(this.psd)) {
           document.querySelector(".ppp").classList.remove("false");
           document.querySelector(".ppp").innerHTML = "密码符合规则";
