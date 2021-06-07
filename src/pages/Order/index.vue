@@ -2,10 +2,14 @@
   <div class="">
     <div @click="back" class="back">返回</div>
     <div @click="goaddlist">收货人管理</div>
+    <ul>
+      <li></li>
+    </ul>
   </div>
 </template>
 
 <script>
+import { reqGetOrder } from "../../api/order";
 export default {
   components: {},
   data() {
@@ -20,8 +24,14 @@ export default {
     back() {
       this.$router.back();
     },
+    async getOrderList() {
+      const res = await reqGetOrder();
+      console.log(res);
+    },
   },
-  created() {},
+  created() {
+    this.getOrderList();
+  },
   mounted() {},
 };
 </script>

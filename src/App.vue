@@ -12,16 +12,6 @@
 </template>
 
 <script>
-  // import Footer from "./components/Footer.vue";
-
-<<<<<<< HEAD
-  export default {
-    name: "App",
-    components: {
-      // Footer,
-    },
-  };
-=======
 export default {
   name: "App",
   components: {
@@ -35,7 +25,6 @@ export default {
     this.$store.commit("getuser", userList);
   },
 };
->>>>>>> 5bb31aa4c02965160a8f179e7aab5e83e21408e7
 </script>
 
 <style></style>
