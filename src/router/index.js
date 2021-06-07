@@ -49,6 +49,20 @@ const router = new VueRouter({
         footerShow: true,
       },
     },
+    {
+      path: "/order",
+      component: () => import("../pages/Order"),
+      meta: {
+        footerShow: false,
+      },
+    },
+    {
+      path: "/address",
+      component: () => import("../pages/Address"),
+      meta: {
+        footerShow: false,
+      },
+    },
 
     {
       path: "/jingxi",
