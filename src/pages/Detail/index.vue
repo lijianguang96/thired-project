@@ -23,10 +23,9 @@
 
     <div class="banner">
       <van-swipe @change="onChange">
-        <van-swipe-item>
-          <img src="../../assets/xie.webp" alt="" />
+        <van-swipe-item v-for="i in 4" :key="i.id">
+          <img :src="pic.coverImg" alt="" />
         </van-swipe-item>
-
         <template #indicator>
           <div class="custom-indicator">{{ current + 1 }}/4</div>
         </template>
@@ -124,13 +123,13 @@
 </template>
 
 <script>
-  // import { reqDetail } from "../../api/detail";
+  import { reqDetail } from "../../api/detail";
 
   export default {
     components: {},
     data() {
       return {
-        pic: [],
+        pic: {},
         current: 0,
         activeName: "a",
         pIntroduct: "i",
@@ -159,10 +158,13 @@
       onChange(index) {
         this.current = index;
       },
-      // async getPic(id) {
-      //   const result = await reqDetail(id);
-      //   console.log(result);
-      // },
+      // 详情接口
+      async getPic(id) {
+        const result = await reqDetail(id);
+        console.log(result);
+        this.pic = result.data;
+      },
+
       handleScroll() {
         var scrollTop =
           window.pageYOffset ||
@@ -180,7 +182,7 @@
       },
     },
     created() {
-      // this.getPic();
+      this.getPic(this.$route.params.id);
     },
     mounted() {
       window.addEventListener("scroll", this.handleScroll);
