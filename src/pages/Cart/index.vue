@@ -90,6 +90,9 @@
               @minus="reduce(item.product._id, -1)"
               @plus="add(item.product._id, 1)"
             />
+            <div class="del">
+              <van-icon name="delete" @click="del(item._id)" size="30px" />
+            </div>
             <!-- <van-stepper
               v-model="item.quantity"
               @minus="item.quantity > 1 && reduce(item.product._id, -1)"
@@ -148,7 +151,13 @@
 
 <script>
 import { getToken } from "../../utils/auth";
-import { reqCartlist, reqAddCart, reqDelAll, reqOrder } from "../../api/cart";
+import {
+  reqCartlist,
+  reqAddCart,
+  reqDelAll,
+  reqOrder,
+  reqDel,
+} from "../../api/cart";
 import { reqProducts } from "../../api/products";
 export default {
   components: {},
@@ -281,7 +290,26 @@ export default {
       //跳转订单页面
       this.$router.push("/order");
     },
+    //单个删除
+    async del(id) {
+      // var id1 = [];
+      // this.products.forEach((item) => {
+      //   // console.log(item._id);
+      //   let id1 = item._id;
+      //   console.log(id1);
 
+      // });
+      const result = await reqDel(id);
+      console.log(result);
+      let ids = this.products.findIndex((v) => v._id == id);
+      this.products.splice(ids, 1);
+      // console.log(this.products);
+      // var id2 = this.products._id;
+      // console.log(id2);
+      // const result = await reqDel({ id2 });
+      // console.log(result);
+    },
+    //全部删除
     async dels() {
       console.log(this.products);
 
