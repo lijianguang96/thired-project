@@ -7,5 +7,5 @@ export const reqLogin = (data) => post("/api/v1/auth/login", data);
 export const reqUserInfo = () => get("/api/v1/users/info");
 //改变用户名
 export const reqChangename = (params) => post("/api/v1/users/change_info", params);
-
+//修改密码
 export const reqChangepwd = (params) => post("/api/v1/users/change_pwd", params);
