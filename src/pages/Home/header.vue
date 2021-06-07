@@ -4,9 +4,9 @@
     <div class="search">
       <span class="letter1">JD</span>
       <span class="tu2"><img src="../../assets/sousuo.png" alt="" /></span>
-      <input type="text" value="电子琴" class="ipt" />
+      <input type="text" value="电子琴" class="ipt" @click="search" />
     </div>
-    <span class="login">登录</span>
+    <span class="login" @click="login">登录</span>
   </div>
 </template>
 
@@ -19,12 +19,15 @@ export default {
   computed: {},
   watch: {},
   methods: {
-   
+    login() {
+      this.$router.push("/login");
+    },
+    search() {
+      this.$router.push("/search");
+    },
   },
   created() {},
-  mounted() {
-   
-  },
+  mounted() {},
 };
 </script>
 <style scoped>
