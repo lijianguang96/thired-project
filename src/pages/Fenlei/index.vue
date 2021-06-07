@@ -163,8 +163,7 @@ export default {
 .aside {
   float: left;
   min-width: 76px;
-  height: 1000px;
-  /* min-height: 100%; */
+  min-height: 100%;
   background: pink;
   position: absolute;
   top: 50px;
