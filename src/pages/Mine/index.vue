@@ -149,8 +149,8 @@ export default {
     showUpdata() {
       this.updata = true;
       Dialog.confirm({
-        title: "标题",
-        message: "弹窗内容",
+        title: "正在退出登陆",
+        message: "确认是否退出",
       })
         .then(() => {
           removeToken();
