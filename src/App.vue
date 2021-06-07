@@ -12,15 +12,14 @@
 </template>
 
 <script>
-// import Footer from "./components/Footer.vue";
+  // import Footer from "./components/Footer.vue";
 
-export default {
-  name: "App",
-  components: {
-    // Footer,
-  },
-};
+  export default {
+    name: "App",
+    components: {
+      // Footer,
+    },
+  };
 </script>
 
-<style>
-</style>
+<style></style>
