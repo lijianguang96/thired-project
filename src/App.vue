@@ -19,6 +19,12 @@ export default {
   components: {
     // Footer,
   },
+  created() {
+    const userInfo = localStorage.getItem("info")
+      ? JSON.parse(localStorage.getItem("info"))
+      : "";
+    this.$store.commit("getuser", userInfo);
+  },
 };
 </script>
 
