@@ -1,8 +1,15 @@
 <template>
-  <div class="">订单页面</div>
+  <div class="">
+    <div @click="back" class="back">返回</div>
+    <div @click="goaddlist">收货人管理</div>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
 </template>
 
 <script>
+import { reqGetOrder } from "../../api/order";
 export default {
   components: {},
   data() {
@@ -10,10 +17,29 @@ export default {
   },
   computed: {},
   watch: {},
-  methods: {},
-  created() {},
+  methods: {
+    goaddlist() {
+      this.$router.push("/addlist");
+    },
+    back() {
+      this.$router.back();
+    },
+    async getOrderList() {
+      const res = await reqGetOrder();
+      console.log(res);
+    },
+  },
+  created() {
+    this.getOrderList();
+  },
   mounted() {},
 };
 </script>
 <style scoped>
+.back {
+  width: 20;
+  height: 20px;
+  color: chartreuse;
+  font-size: 19px;
+}
 </style>

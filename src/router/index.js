@@ -63,6 +63,13 @@ const router = new VueRouter({
         footerShow: false,
       },
     },
+    {
+      path: "/addlist",
+      component: () => import("../pages/Addlist"),
+      meta: {
+        footerShow: false,
+      },
+    },
 
     {
       path: "/jingxi",

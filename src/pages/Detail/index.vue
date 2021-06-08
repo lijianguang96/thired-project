@@ -4,7 +4,7 @@
       <van-icon name="revoke" class="icon-top" @click="back" />
       <van-tabs v-model="activeName" class="van-tabs">
         <van-tab title="商品" name="a"></van-tab>
-        <van-tab title="评价" name="b"></van-tab>
+        <van-tab title="评价" name="b" @click.native="goAnchor"></van-tab>
         <van-tab title="详情" name="c"></van-tab>
         <van-tab title="推荐" name="d"></van-tab>
       </van-tabs>
@@ -63,13 +63,15 @@
         <span> <van-icon name="weapp-nav"/></span>
       </div>
 
-      <div>
+      <div class="yixuan">
         <span>已选</span>
-        <span> <van-icon name="weapp-nav"/></span>
+        <span>你选的商品</span>
+        <span><van-icon name="weapp-nav"/></span>
       </div>
 
-      <div>
+      <div class="songzhi">
         <span>送至</span>
+        <span>相送哪送哪，本商品不发货</span>
         <span> <van-icon name="weapp-nav"/></span>
       </div>
 
@@ -79,9 +81,9 @@
       </div>
 
       <div>
-        <span>商家发货&售后</span>
-        <span>7天无理由退货</span>
-        <span>运送费险</span>
+        <span> <img src="../../assets/duigou.png" alt="" /> 商家发货&售后</span>
+        <span><img src="../../assets/duigou.png" alt="" />7天无理由退货</span>
+        <span><img src="../../assets/duigou.png" alt="" />运送费险</span>
         <span> <van-icon name="weapp-nav"/></span>
       </div>
 
@@ -89,31 +91,29 @@
 
       <div>
         <div>
-          <span>评价 100+</span>
-          <span>好评度 100%</span>
+          <span id="pinjia">评价 100+</span>
+          <span>好评度 100%<van-icon name="arrow"/></span>
+        </div>
+        <div>
+          <span class="pj-bg">穿着舒适</span>
+          <span class="pj-bg">穿着舒适</span>
+          <span class="pj-bg">穿着舒适</span>
         </div>
         <div>
           <span>穿着舒适</span>
           <span>穿着舒适</span>
           <span>穿着舒适</span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt=""/></span>
         </div>
-        <div>
-          <span>穿着舒适</span>
-          <span>穿着舒适</span>
-          <span>穿着舒适</span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>s
-        </div>
-        <p>用户1</p>
       </div>
+      <!-- 猜你喜欢 -->
 
+      <div class="like">
+        <p>猜你喜欢</p>
+      </div>
       <!-- 详情 -->
       <div>
         <van-tabs v-model="pIntroduct">
@@ -158,7 +158,7 @@
           block
           type="danger"
           native-type="submit"
-          @click="addCart(pic._id)"
+          @click="addCart(pic._id, 1)"
         >
           提交
         </van-button>
@@ -196,6 +196,16 @@
     computed: {},
     watch: {},
     methods: {
+      goAnchor() {
+        console.log(111);
+      },
+      // goAnchor(selector) {
+      //   this.$el.querySelector(selector).scrollIntoView({
+      //     behavior: "smooth", // 平滑过渡
+      //     block: "start", // 上边框与视窗顶部平齐。默认值
+      //   });
+      // },
+
       back() {
         this.$router.go(-1);
       },
@@ -238,6 +248,7 @@
         this.show = true;
       },
     },
+
     created() {
       this.getPic(this.$route.params.id);
     },
@@ -251,7 +262,7 @@
     position: relative;
   }
   .detail-top {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     width: 375px;
     height: 45px;
     border-bottom: 1px solid rgb(206, 206, 206);
@@ -364,7 +375,7 @@
     margin-right: 10px;
   }
   .fangxingou {
-    margin-top: 10px;
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
   }
@@ -384,13 +395,21 @@
     display: flex;
     justify-content: space-between;
   }
+
   .youhui span:nth-child(1) {
     font-weight: 700;
     font-size: 14px;
   }
   .youhui span:nth-child(2) {
-    font-size: 16px;
+    margin-top: 10px;
   }
+  .youhui span:nth-child(3) {
+    margin-top: 10px;
+  }
+  .youhui span:nth-child(4) {
+    margin-top: 10px;
+  }
+
   .coupon {
     box-sizing: border-box;
     display: inline-flex;

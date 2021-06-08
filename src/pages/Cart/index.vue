@@ -151,6 +151,7 @@
 
 <script>
 import { getToken } from "../../utils/auth";
+import { Toast } from "vant";
 import {
   reqCartlist,
   reqAddCart,
@@ -159,6 +160,7 @@ import {
   reqDel,
 } from "../../api/cart";
 import { reqProducts } from "../../api/products";
+import { mapGetters } from "vuex";
 export default {
   components: {},
   data() {
@@ -200,6 +202,7 @@ export default {
         );
       },
     },
+    ...mapGetters(["getInfo"]),
   },
   watch: {},
   methods: {
@@ -264,31 +267,61 @@ export default {
 
     // 生成订单
     async onSubmit() {
-      //新建订单商品数组
-      var orderDetails = [];
-      //遍历
-      this.products.forEach((item) => {
-        //如果选中，放入订单数组中
-        if (item.checked == true) {
-          orderDetails.push({
-            //数组内容
-            quantity: item.product.quantity,
-            product: item.product._id,
-            price: item.product.price,
+      if (this.getInfo) {
+        const userInfo = {
+          receiver: this.getInfo.name,
+          regions: this.getInfo.address,
+          address: this.getInfo.regions,
+        };
+        const orderDetails = [];
+        let arr = this.products.filter((v) => v.checked == true);
+        if (arr.length) {
+          arr.forEach((v) => {
+            let obj = {
+              quantity: v.quantity,
+              product: v.product._id,
+              price: v.product.price,
+            };
+            orderDetails.push(obj);
           });
+          let data = { ...userInfo, orderDetails };
+          const res = await reqOrder(data);
+          console.log(res);
+          if (res.data.code == "success") {
+            this.$router.push("/order");
+          }
+        } else {
+          Toast("请选择商品");
         }
-      });
-      //发起请求 reqAddorder 请求订单接口
-      const result = await reqOrder({
-        //放入参数
-        receiver: "李连杰",
-        regions: "河南郑州荥阳",
-        address: "黄河边儿1号楼1023",
-        orderDetails,
-      });
-      console.log(result);
-      //跳转订单页面
-      this.$router.push("/order");
+      } else {
+        Toast("您还没有地址，快去填写吧");
+        this.$router.push("/address");
+      }
+      //新建订单商品数组
+      // var orderDetails = [];
+      // //遍历
+      // this.products.forEach((item) => {
+      //   //如果选中，放入订单数组中
+      //   if (item.checked == true) {
+      //     orderDetails.push({
+      //       //数组内容
+      //       quantity: item.product.quantity,
+      //       product: item.product._id,
+      //       price: item.product.price,
+      //     });
+      //   }
+      // });
+      // //发起请求 reqAddorder 请求订单接口
+      // const result = await reqOrder({
+      //   //放入参数
+      //   receiver: "李连杰",
+      //   regions: "河南郑州荥阳",
+      //   address: "黄河边儿1号楼1023",
+      //   orderDetails,
+      // });
+      // console.log(result);
+      // //跳转订单页面
+      // this.$router.push("/order");
     },
     //单个删除
     async del(id) {

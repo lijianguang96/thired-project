@@ -1,0 +1,58 @@
+<template>
+  <div class="">
+    <van-address-list
+      v-model="chosenAddressId"
+      :list="list"
+      :disabled-list="disabledList"
+      disabled-text="以下地址超出配送范围"
+      default-tag-text="默认"
+      @add="onAdd"
+      @edit="onEdit"
+    />
+  </div>
+</template>
+
+<script>
+import { Toast } from "vant";
+import { mapGetters } from "vuex";
+export default {
+  components: {},
+  data() {
+    return {
+      list: [],
+      chosenAddressId: "1",
+      disabledList: [
+        {
+          id: "3",
+          name: "王五",
+          tel: "1320000000",
+          address: "浙江省杭州市滨江区江南大道 15 号",
+        },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters(["getInfo"]),
+  },
+  watch: {},
+  methods: {
+    onAdd() {
+      //   Toast("新增地址");
+      this.$router.push("/address");
+    },
+    onEdit(item, index) {
+      Toast("编辑地址:" + index);
+    },
+    getaddlist() {},
+  },
+  created() {
+    this.getaddlist();
+    this.list = this.getInfo;
+    console.log(this.getInfo);
+    console.log(this.list);
+  },
+  mounted() {},
+};
+</script>
+<style scoped>
+</style>
