@@ -31,7 +31,7 @@
               <h3>浏览历史</h3>
               <span @click="clearList"><i class="fa fa-trash"></i> 清空</span>
             </div>
-            <ul>
+            <ul v-if="historyList">
               <li v-for="(item, index) in historyList" :key="index">
                 <van-image :src="item.coverImg" width="64" />
                 <span>{{ item.productCategory.name }}</span>
@@ -65,7 +65,7 @@ export default {
   components: {},
   data() {
     return {
-      historyList: [],
+      historyList: null,
       active: 0,
       flag: false,
       navlist: [
