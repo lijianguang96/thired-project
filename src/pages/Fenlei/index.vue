@@ -29,7 +29,7 @@
           <div class="history">
             <div class="title">
               <h3>浏览历史</h3>
-              <span @click="clearList">清空</span>
+              <span @click="clearList"><i class="fa fa-trash"></i> 清空</span>
             </div>
             <ul>
               <li v-for="(item, index) in historyList" :key="index">
