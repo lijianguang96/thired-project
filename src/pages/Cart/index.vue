@@ -372,6 +372,10 @@ export default {
 };
 </script>
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
 .header {
   height: 40px;
   line-height: 40px;
@@ -382,30 +386,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-/* .list2 {
-  position: relative;
-}
-.list1 {
-  width: 100px;
-  height: 40px;
- 
-  position: absolute;
-  z-index: 20;
-  right: 20px;
-}
-.list3 {
- 
-  background: black;
-  color: #fff;
-} */
-
-/* .header span {
-  float: left;
-} */
-* {
-  margin: 0;
-  padding: 0;
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 .text {
