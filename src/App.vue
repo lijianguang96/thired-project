@@ -18,11 +18,16 @@ export default {
     // Footer,
   },
   created() {
-    const userList = localStorage.getItem("userList")
-      ? JSON.parse(localStorage.getItem("userList"))
+    const userInfo = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
       : "";
-    console.log(userList);
-    this.$store.commit("getuser", userList);
+    console.log(userInfo);
+    this.$store.commit("getuser", userInfo);
+    
+    const data = localStorage.getItem("data")
+      ? JSON.parse(localStorage.getItem("data"))
+      : "";
+    this.$store.commit("getData", data);
   },
 };
 </script>
