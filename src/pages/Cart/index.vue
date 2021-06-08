@@ -152,7 +152,13 @@
 <script>
 import { getToken } from "../../utils/auth";
 import { Toast } from "vant";
-import { reqCartlist, reqAddCart, reqDelAll, reqOrder } from "../../api/cart";
+import {
+  reqCartlist,
+  reqAddCart,
+  reqDelAll,
+  reqOrder,
+  reqDel,
+} from "../../api/cart";
 import { reqProducts } from "../../api/products";
 import { mapGetters } from "vuex";
 export default {
@@ -204,7 +210,12 @@ export default {
     back() {
       this.$router.back();
     },
-
+    async del(id) {
+      const res = await reqDel(id);
+      console.log(res);
+      let idx = this.products.findIndex((v) => v._id == id);
+      this.products.splice(idx, 1);
+    },
     //右上角三个点显示
     toggle() {
       this.isShow = !this.isShow;
@@ -261,7 +272,7 @@ export default {
 
     // 生成订单+
     async onSubmit() {
-      if (this.getInfo.receiver) {
+      if (this.getInfo) {
         const userInfo = this.getInfo;
         const orderDetails = [];
         let arr = this.products.filter((v) => v.checked == true);
