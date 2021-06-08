@@ -40,10 +40,15 @@
         </div>
       </div>
     </div>
-    <van-button round type="info" size="large" class="zfb"
+    <van-button round type="info" size="large" class="zfb" @click="pay1"
       >支付宝支付</van-button
     >
-    <van-button round type="info" size="large">微信支付</van-button>
+    <van-button round type="info" size="large" @click="pay1"
+      >微信支付</van-button
+    >
+    <van-dialog v-model="show" title="请扫码支付" show-cancel-button>
+      <img src="../../assets/weixin1.png" />
+    </van-dialog>
   </div>
 </template>
 
@@ -55,6 +60,7 @@ export default {
   components: {},
   data() {
     return {
+      show: false,
       obj: null,
       dataOrders: [],
       currentContact: {
@@ -89,7 +95,11 @@ export default {
       let idx = this.dataOrders.findIndex((v) => v._id == id);
       this.dataOrders.splice(idx, 1);
     },
+    pay1() {
+      this.show = !this.show;
+    },
   },
+
   created() {
     this.getOrderList();
     // this.dataOrders = this.getData.orderDetails;
@@ -111,17 +121,27 @@ export default {
   margin-top: 10px;
   /* background: chartreuse; */
 }
+.van-dialog {
+  width: 300px;
+  height: 400px;
+}
+.van-dialog img {
+  text-align: center;
+  width: 300px;
+  height: 300px;
+}
 .one {
   width: 100%;
   height: 20px;
   /* background: darkred; */
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 .one img {
   width: 20px;
   height: 20px;
+  margin: 0 10px;
 }
 .one span {
   color: #333;
