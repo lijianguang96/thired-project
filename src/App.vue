@@ -12,17 +12,26 @@
 </template>
 
 <script>
-  // import Footer from "./components/Footer.vue";
+// import Footer from "./components/Footer.vue";
 
-  export default {
-    name: "App",
-    components: {
-      // Footer,
-    },
-  };
+export default {
+  name: "App",
+  components: {
+    // Footer,
+  },
+  created() {
+    const userInfo = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null;
+    this.$store.commit("getuser", userInfo);
+
+    const userInfoData = localStorage.getItem("userInfoData")
+      ? JSON.parse(localStorage.getItem("userInfoData"))
+      : null;
+    this.$store.commit("getData", userInfoData);
+  },
+};
 </script>
 
 <style>
-  #app {
-  }
 </style>
