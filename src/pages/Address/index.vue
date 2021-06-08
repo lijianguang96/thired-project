@@ -16,6 +16,7 @@
 </template>
 
 <script>
+// import { reqAddlist } from "../../api/order";
 import { Toast } from "vant";
 import { areaList } from "@vant/area-data";
 export default {
@@ -23,7 +24,6 @@ export default {
   data() {
     return {
       areaList,
-      id: localStorage.getItem("id") || 1,
       searchResult: [],
       userList: localStorage.getItem("userList")
         ? JSON.parse(localStorage.getItem("userList"))
@@ -33,40 +33,59 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    onSave(e) {
-      console.log(e);
-      if (e.city == e.province) {
-        const info = {
-          id: this.id,
-          name: e.name,
-          regions: e.city,
-          address: e.county + e.addressDetail,
-          tel: e.tel,
-        };
-        this.userList.push(info);
-        localStorage.setItem("userList", JSON.stringify(this.userList));
-        this.$store.commit("getuser", this.userList);
-        Toast("保存成功");
-        this.id++;
-        localStorage.setItem("id", this.id);
+    async onSave(e) {
+      //请求新增地址
+      let userInfo = {
+        receiver: e.name,
+        regions: e.city + e.county,
+        address: e.addressDetail,
+      };
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
-        this.$router.back();
-      } else {
-        const info = {
-          id: this.id,
-          name: e.name,
-          regions: e.province + e.city,
-          address: e.county + e.addressDetail,
-          tel: e.tel,
-        };
-        this.userList.push(info);
-        localStorage.setItem("userList", JSON.stringify(this.userList));
-        this.$store.commit("getuser", this.userList);
-        this.id++;
-        localStorage.setItem("id", this.id);
-        Toast("保存成功");
-        this.$router.back();
-      }
+      let obj2 = {
+        receiver: e.name,
+        regions: e.city + e.county,
+        address: e.addressDetail,
+        tel: e.tel,
+      };
+      let userInfoData = JSON.parse(localStorage.getItem("userInfoData")) || [];
+      userInfoData.push(obj2);
+      localStorage.setItem("userInfoData", JSON.stringify(userInfoData));
+
+      Toast("保存成功");
+      this.$router.back();
+      // if (e.city == e.province) {
+      //   const info = {
+      //     id: this.id,
+      //     name: e.name,
+      //     regions: e.city,
+      //     address: e.county + e.addressDetail,
+      //     tel: e.tel,
+      //   };
+      //   this.userList.push(info);
+      //   localStorage.setItem("userList", JSON.stringify(this.userList));
+      //   this.$store.commit("getuser", this.userList);
+      //   Toast("保存成功");
+      //   this.id++;
+      //   localStorage.setItem("id", this.id);
+
+      //   this.$router.back();
+      // } else {
+      //   const info = {
+      //     id: this.id,
+      //     name: e.name,
+      //     regions: e.province + e.city,
+      //     address: e.county + e.addressDetail,
+      //     tel: e.tel,
+      //   };
+      //   this.userList.push(info);
+      //   localStorage.setItem("userList", JSON.stringify(this.userList));
+      //   this.$store.commit("getuser", this.userList);
+      //   this.id++;
+      //   localStorage.setItem("id", this.id);
+      //   Toast("保存成功");
+      //   this.$router.back();
+      // }
 
       /* 
       addressDetail: "朝阳街道东大厦1230"

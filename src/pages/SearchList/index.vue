@@ -90,9 +90,10 @@
         </ul>
       </van-list>
     </div>
+    <div @click="Gotop" class="gotop" v-show="showbtn"></div>
   </div>
 </template>
-
+ 
 <script>
 import { reqProducts } from "../../api/products";
 
@@ -100,6 +101,7 @@ export default {
   components: {},
   data() {
     return {
+      showbtn: false,
       loading: false,
       finished: false,
       page: 1,
@@ -162,11 +164,34 @@ export default {
     goToSeach() {
       this.$router.push("/search");
     },
+    // 显示回到顶部按钮
+    handleScroll() {
+      let scrolltop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      scrolltop > 100 ? (this.showbtn = true) : (this.showbtn = false);
+    },
+    // 回到顶部
+    Gotop() {
+      var timer = setInterval(function () {
+        let osTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        let ispeed = Math.floor(-osTop / 5);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          osTop + ispeed;
+        this.isTop = true;
+        if (osTop === 0) {
+          clearInterval(timer);
+        }
+      }, 30);
+    },
   },
   created() {
     this.lodeList();
   },
-  mounted() {},
+  mounted() {
+    // 监听滚动;
+    window.addEventListener("scroll", this.handleScroll, true);
+  },
 };
 </script>
 <style scoped>
@@ -344,5 +369,17 @@ export default {
 }
 .small-p {
   margin: 10px 0;
+}
+.gotop {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7)
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAmBAMAAABXDYTaAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAASUExURUdwTP///////////////////4gZPH8AAAAFdFJOUwDOErgtIpiQXwAAAHtJREFUKM/tjssNgCAQBTckNLAJdzjYgVZgA6Ch/1ZkPwKrFwvwHeAxOwGgPgIv8DkJ7dmFEq1QK1ohFKOkshwBZwF9TpPSus9uKFR9hqFQa6ArXBroCu8EVJGNgCqyMuCZegx4qDcJoOkmbwmAdMIeZ+DW+7cKRn4guQD4+CB6VvlekQAAAABJRU5ErkJggg==)
+    50% no-repeat;
+  background-size: 16px auto;
+  transition: right 0.3s ease;
 }
 </style>

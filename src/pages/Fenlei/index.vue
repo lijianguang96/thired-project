@@ -27,21 +27,26 @@
       >
         <template #content>
           <div class="history">
-            <h3>浏览足迹</h3>
+            <div class="title">
+              <h3>浏览历史</h3>
+              <span @click="clearList"><i class="fa fa-trash"></i> 清空</span>
+            </div>
             <ul>
-              <li
-                v-for="item in historyList"
-                :key="item._id"
-                @click="goSearchDetail(item)"
-              >
-                {{ item }}
+              <li v-for="(item, index) in historyList" :key="index">
+                <van-image :src="item.coverImg" width="64" />
+                <span>{{ item.productCategory.name }}</span>
               </li>
             </ul>
           </div>
           <div class="hotlist">
             <h3>热卖商品</h3>
+
             <ul>
-              <li v-for="item in goodsList" :key="item._id" @click="goSeach()">
+              <li
+                v-for="item in goodsList"
+                :key="item._id"
+                @click="goSeach(item)"
+              >
                 <van-image :src="item.coverImg" width="64" />
                 <span>{{ item.productCategory.name }}</span>
               </li>
@@ -54,7 +59,8 @@
 </template>
 <script>
 import { reqProducts } from "../../api/products";
-// import { reqDetail } from "../../api/detail";
+import { Toast } from "vant";
+import { Dialog } from "vant";
 export default {
   components: {},
   data() {
@@ -117,25 +123,42 @@ export default {
       const result = await reqProducts({ page: index + 1, per: 20 });
       console.log(result.data.products);
       this.goodsList = result.data.products;
-      console.log(this.goodsList);
+    },
+
+    //去商品列表页面
+    async goSeach(item) {
+      // console.log(item);
+      let historyList = JSON.parse(localStorage.getItem("hisList")) || [];
+      historyList.push({ ...item });
+      localStorage.setItem("hisList", JSON.stringify(historyList));
+      this.$router.push("/SearchList");
+    },
+    //历史数据展示在页面
+    historyFn() {
+      let historyList = JSON.parse(localStorage.getItem("hisList"));
+      this.historyList = historyList;
+    },
+    //清空历史数据
+    clearList() {
+      Dialog.confirm({
+        title: "提示",
+        message: "确认要清空浏览足迹吗？",
+      })
+        .then(() => {
+          localStorage.removeItem("hisList");
+          this.historyList = "";
+          Toast("全部清除");
+        })
+        .catch(() => {
+          Toast("撤销删除");
+        });
     },
     // 跳转搜索页面
     goToSeach() {
       this.$router.push("/search");
     },
-    //去商品列表页面
-    goSeach() {
-      console.log(this.goodsList);
-      let img = this.goodsList.coverImg;
-      let historyList = JSON.parse(localStorage.getItem("hisList")) || [];
-      historyList.push({ img });
-      console.log(historyList);
-      localStorage.setItem("hisList", JSON.stringify(historyList));
-      this.$router.push("/SearchList");
-    },
-
     //返回上一页
-    async back() {
+    back() {
       this.$router.back();
     },
     // 切换
@@ -145,6 +168,7 @@ export default {
   },
   created() {
     this.clickNav(0);
+    this.historyFn();
   },
   mounted() {},
 };
@@ -291,5 +315,15 @@ export default {
   text-align: center;
   justify-content: center;
   margin-top: 10px;
+}
+.title {
+  width: 228px;
+  height: 25px;
+  position: relative;
+}
+.title span {
+  position: absolute;
+  top: -9px;
+  right: 0;
 }
 </style>

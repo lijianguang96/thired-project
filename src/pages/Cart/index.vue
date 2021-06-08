@@ -152,13 +152,7 @@
 <script>
 import { getToken } from "../../utils/auth";
 import { Toast } from "vant";
-import {
-  reqCartlist,
-  reqAddCart,
-  reqDelAll,
-  reqOrder,
-  reqDel,
-} from "../../api/cart";
+import { reqCartlist, reqAddCart, reqDelAll, reqOrder } from "../../api/cart";
 import { reqProducts } from "../../api/products";
 import { mapGetters } from "vuex";
 export default {
@@ -265,14 +259,10 @@ export default {
       this.$router.push("/detail/" + id);
     },
 
-    // 生成订单
+    // 生成订单+
     async onSubmit() {
-      if (this.getInfo) {
-        const userInfo = {
-          receiver: this.getInfo.name,
-          regions: this.getInfo.address,
-          address: this.getInfo.regions,
-        };
+      if (this.getInfo.receiver) {
+        const userInfo = this.getInfo;
         const orderDetails = [];
         let arr = this.products.filter((v) => v.checked == true);
         if (arr.length) {
@@ -285,6 +275,7 @@ export default {
             orderDetails.push(obj);
           });
           let data = { ...userInfo, orderDetails };
+          localStorage.setItem("data", JSON.stringify(data));
           const res = await reqOrder(data);
           console.log(res);
           if (res.data.code == "success") {
@@ -297,50 +288,6 @@ export default {
         Toast("您还没有地址，快去填写吧");
         this.$router.push("/address");
       }
-      //新建订单商品数组
-      // var orderDetails = [];
-      // //遍历
-      // this.products.forEach((item) => {
-      //   //如果选中，放入订单数组中
-      //   if (item.checked == true) {
-      //     orderDetails.push({
-      //       //数组内容
-      //       quantity: item.product.quantity,
-      //       product: item.product._id,
-      //       price: item.product.price,
-      //     });
-      //   }
-      // });
-      // //发起请求 reqAddorder 请求订单接口
-      // const result = await reqOrder({
-      //   //放入参数
-      //   receiver: "李连杰",
-      //   regions: "河南郑州荥阳",
-      //   address: "黄河边儿1号楼1023",
-      //   orderDetails,
-      // });
-      // console.log(result);
-      // //跳转订单页面
-      // this.$router.push("/order");
-    },
-    //单个删除
-    async del(id) {
-      // var id1 = [];
-      // this.products.forEach((item) => {
-      //   // console.log(item._id);
-      //   let id1 = item._id;
-      //   console.log(id1);
-
-      // });
-      const result = await reqDel(id);
-      console.log(result);
-      let ids = this.products.findIndex((v) => v._id == id);
-      this.products.splice(ids, 1);
-      // console.log(this.products);
-      // var id2 = this.products._id;
-      // console.log(id2);
-      // const result = await reqDel({ id2 });
-      // console.log(result);
     },
     //全部删除
     async dels() {
@@ -372,6 +319,10 @@ export default {
 };
 </script>
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
 .header {
   height: 40px;
   line-height: 40px;
@@ -382,30 +333,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-/* .list2 {
-  position: relative;
-}
-.list1 {
-  width: 100px;
-  height: 40px;
- 
-  position: absolute;
-  z-index: 20;
-  right: 20px;
-}
-.list3 {
- 
-  background: black;
-  color: #fff;
-} */
-
-/* .header span {
-  float: left;
-} */
-* {
-  margin: 0;
-  padding: 0;
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 .text {

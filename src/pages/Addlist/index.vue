@@ -1,26 +1,56 @@
 <template>
-  <div class="">
+  <div class="addlist">
+    <van-nav-bar
+      title="收货人列表"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
     <van-address-list
       v-model="chosenAddressId"
-      :list="list"
-      :disabled-list="disabledList"
-      disabled-text="以下地址超出配送范围"
+      :list="ids"
       default-tag-text="默认"
       @add="onAdd"
       @edit="onEdit"
+      @select="sel()"
     />
+    <!-- <van-button round type="info" size="large" @click="goback"
+      >确定使用</van-button
+    > -->
   </div>
 </template>
 
 <script>
 import { Toast } from "vant";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
+// import { reqSigleleAddress, reqAddressslist } from "../../api/order";
 export default {
   components: {},
   data() {
     return {
-      list: [],
-      chosenAddressId: "1",
+      chosenAddressId: "0",
+      ids: [],
+      list: [
+        {
+          id: "1",
+          name: "张三",
+          tel: "13000000000",
+          address: "浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室",
+          isDefault: true,
+        },
+        {
+          id: "2",
+          name: "张三",
+          tel: "1310000000",
+          address: "浙江省杭州市拱墅区莫干山路 50 号",
+        },
+        {
+          id: "3",
+          name: "张三",
+          tel: "1310000000",
+          address: "",
+        },
+      ],
       disabledList: [
         {
           id: "3",
@@ -32,10 +62,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getInfo"]),
+    // ...mapGetters(["getInfo"]),
   },
   watch: {},
   methods: {
+    goback() {},
     onAdd() {
       //   Toast("新增地址");
       this.$router.push("/address");
@@ -43,13 +74,25 @@ export default {
     onEdit(item, index) {
       Toast("编辑地址:" + index);
     },
-    getaddlist() {},
+    sel(e) {
+      console.log(e);
+    },
+    onClickLeft() {
+      this.$router.back();
+    },
   },
   created() {
-    this.getaddlist();
-    this.list = this.getInfo;
-    console.log(this.getInfo);
-    console.log(this.list);
+    const arr = JSON.parse(localStorage.getItem("userInfoData"));
+    arr.forEach((v, index) => {
+      let obj = {
+        id: index,
+        name: v.receiver,
+        tel: v.tel,
+        address: v.regions + v.address,
+      };
+      this.ids.push(obj);
+    });
+    console.log(this.ids);
   },
   mounted() {},
 };

@@ -193,6 +193,7 @@
         ],
       };
     },
+<<<<<<< HEAD
     computed: {},
     watch: {},
     methods: {
@@ -247,6 +248,22 @@
       showPopup() {
         this.show = true;
       },
+=======
+    // 详情接口
+    async getPic(id) {
+      const result = await reqDetail(id);
+      console.log(result);
+      this.pic = result.data;
+      console.log(result);
+    },
+    async addCart(product, quantity) {
+      console.log(product);
+      const result = await reqAddCart({ product, quantity });
+      if (result.status == 200) {
+        this.$toast.success("加入购物车成功");
+      }
+      console.log(result);
+>>>>>>> 4f76ad4e85556a7c01f44997fd6e2f14cbb97965
     },
 
     created() {
