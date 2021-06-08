@@ -10,15 +10,13 @@
     </div>
     <div class="tab">
       <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li
+          v-for="item in goodsList"
+          :key="item._id"
+          @click="goDetail(item._id)"
+        >
+          <img :src="item.coverImg" alt="" />
+        </li>
       </ul>
     </div>
     <div class="dropdown">
@@ -260,6 +258,10 @@ export default {
   height: 50px;
   background: pink;
   margin: 10px;
+}
+.tab img {
+  width: 50px;
+  height: 50px;
 }
 .dropdown {
   width: 100%;
