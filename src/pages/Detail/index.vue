@@ -37,8 +37,8 @@
         </div>
         <div class="right">
           <span>
-            <span class="fz"><van-icon name="gold-coin-o"/></span>
-            <span class="fz"><van-icon name="label-o"/></span>
+            <span class="fz"><van-icon name="gold-coin-o" /></span>
+            <span class="fz"><van-icon name="label-o" /></span>
             <br />
             <span>降价提醒</span>
             <span>收藏</span>
@@ -60,19 +60,19 @@
         <span class="coupon">优惠</span>
         <span class="coupon">优惠</span>
         <span class="coupon">优惠</span>
-        <span> <van-icon name="weapp-nav"/></span>
+        <span> <van-icon name="weapp-nav" /></span>
       </div>
 
       <div class="yixuan">
         <span>已选</span>
         <span>你选的商品</span>
-        <span><van-icon name="weapp-nav"/></span>
+        <span><van-icon name="weapp-nav" /></span>
       </div>
 
       <div class="songzhi">
         <span>送至</span>
         <span>相送哪送哪，本商品不发货</span>
-        <span> <van-icon name="weapp-nav"/></span>
+        <span> <van-icon name="weapp-nav" /></span>
       </div>
 
       <div>
@@ -84,7 +84,7 @@
         <span> <img src="../../assets/duigou.png" alt="" /> 商家发货&售后</span>
         <span><img src="../../assets/duigou.png" alt="" />7天无理由退货</span>
         <span><img src="../../assets/duigou.png" alt="" />运送费险</span>
-        <span> <van-icon name="weapp-nav"/></span>
+        <span> <van-icon name="weapp-nav" /></span>
       </div>
 
       <!-- 评价 -->
@@ -92,7 +92,7 @@
       <div>
         <div>
           <span id="pinjia">评价 100+</span>
-          <span>好评度 100%<van-icon name="arrow"/></span>
+          <span>好评度 100%<van-icon name="arrow" /></span>
         </div>
         <div>
           <span class="pj-bg">穿着舒适</span>
@@ -103,10 +103,10 @@
           <span>穿着舒适</span>
           <span>穿着舒适</span>
           <span>穿着舒适</span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
-          <span><img src="../../assets/fangxingou.png" alt=""/></span>
+          <span><img src="../../assets/fangxingou.png" alt="" /></span>
+          <span><img src="../../assets/fangxingou.png" alt="" /></span>
+          <span><img src="../../assets/fangxingou.png" alt="" /></span>
+          <span><img src="../../assets/fangxingou.png" alt="" /></span>
         </div>
       </div>
       <!-- 猜你喜欢 -->
@@ -168,93 +168,58 @@
 </template>
 
 <script>
-  import { reqDetail } from "../../api/detail";
-  import { reqAddCart } from "../../api/cart";
+import { reqDetail } from "../../api/detail";
+import { reqAddCart } from "../../api/cart";
 
-  export default {
-    components: {},
-    data() {
-      return {
-        show: false,
-        pic: {},
-        current: 0,
-        activeName: "a",
-        pIntroduct: "i",
-        flag: false,
-        opacity: 0,
-        scrollTop: 0,
-        items: [
-          { name: "首页", icon: "home-o" },
-          { name: "分类搜索", icon: "search" },
-          { name: "我的网站", icon: "user-o" },
-          { name: "浏览记录", icon: "eye-o" },
-          { name: "我的关注", icon: "like-o" },
-          { name: "分享", icon: "share-o" },
-        ],
-      };
+export default {
+  components: {},
+  data() {
+    return {
+      show: false,
+      pic: {},
+      current: 0,
+      activeName: "a",
+      pIntroduct: "i",
+      flag: false,
+      opacity: 0,
+      scrollTop: 0,
+      items: [
+        { name: "首页", icon: "home-o" },
+        { name: "分类搜索", icon: "search" },
+        { name: "我的网站", icon: "user-o" },
+        { name: "浏览记录", icon: "eye-o" },
+        { name: "我的关注", icon: "like-o" },
+        { name: "分享", icon: "share-o" },
+      ],
+    };
+  },
+  computed: {},
+  watch: {},
+  methods: {
+    goAnchor() {
+      console.log(111);
     },
-<<<<<<< HEAD
-    computed: {},
-    watch: {},
-    methods: {
-      goAnchor() {
-        console.log(111);
-      },
-      // goAnchor(selector) {
-      //   this.$el.querySelector(selector).scrollIntoView({
-      //     behavior: "smooth", // 平滑过渡
-      //     block: "start", // 上边框与视窗顶部平齐。默认值
-      //   });
-      // },
+    // goAnchor(selector) {
+    //   this.$el.querySelector(selector).scrollIntoView({
+    //     behavior: "smooth", // 平滑过渡
+    //     block: "start", // 上边框与视窗顶部平齐。默认值
+    //   });
+    // },
 
-      back() {
-        this.$router.go(-1);
-      },
-      toggle(flag) {
-        this.flag = !flag;
-      },
-      onChange(index) {
-        this.current = index;
-      },
-      // 详情接口
-      async getPic(id) {
-        const result = await reqDetail(id);
-        console.log(result);
-        this.pic = result.data;
-      },
-      async addCart(product, quantity) {
-        console.log(product);
-        const result = await reqAddCart({ product, quantity });
-        if (result.status == 200) {
-          this.$toast.success("加入购物车成功");
-        }
-        console.log(result);
-      },
-      handleScroll() {
-        var scrollTop =
-          window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop;
-
-        if (scrollTop < 200) {
-          // 当滚动距离小于200时，计算导航透明度，可以考虑修改为每20增加0.1
-          // this.opacity = (scrollTop / 200).toFixed(1);
-          this.opacity = scrollTop / 200;
-          return;
-        } else {
-          this.opacity = 1;
-        }
-      },
-      showPopup() {
-        this.show = true;
-      },
-=======
+    back() {
+      this.$router.go(-1);
+    },
+    toggle(flag) {
+      this.flag = !flag;
+    },
+    onChange(index) {
+      this.current = index;
+    },
     // 详情接口
     async getPic(id) {
       const result = await reqDetail(id);
       console.log(result);
       this.pic = result.data;
-      console.log(result);
     },
     async addCart(product, quantity) {
       console.log(product);
@@ -263,183 +228,201 @@
         this.$toast.success("加入购物车成功");
       }
       console.log(result);
->>>>>>> 4f76ad4e85556a7c01f44997fd6e2f14cbb97965
     },
+    handleScroll() {
+      var scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
 
-    created() {
-      this.getPic(this.$route.params.id);
+      if (scrollTop < 200) {
+        // 当滚动距离小于200时，计算导航透明度，可以考虑修改为每20增加0.1
+        // this.opacity = (scrollTop / 200).toFixed(1);
+        this.opacity = scrollTop / 200;
+        return;
+      } else {
+        this.opacity = 1;
+      }
     },
-    mounted() {
-      window.addEventListener("scroll", this.handleScroll);
+    showPopup() {
+      this.show = true;
     },
-  };
+  },
+
+  created() {
+    this.getPic(this.$route.params.id);
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+};
 </script>
 <style scoped lang="css">
-  .desc {
-    position: relative;
-  }
-  .detail-top {
-    background-color: rgb(255, 255, 255);
-    width: 375px;
-    height: 45px;
-    border-bottom: 1px solid rgb(206, 206, 206);
-    display: flex;
-    justify-content: space-around;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-  }
-  .icon-top {
-    margin-top: 15px;
-    position: relative;
-    /* display: flex;
+.desc {
+  position: relative;
+}
+.detail-top {
+  background-color: rgb(255, 255, 255);
+  width: 375px;
+  height: 45px;
+  border-bottom: 1px solid rgb(206, 206, 206);
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.icon-top {
+  margin-top: 15px;
+  position: relative;
+  /* display: flex;
     justify-content: space-between;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 999; */
-  }
+}
 
-  .van-tabs >>> .van-tab {
-    margin-left: 20px;
-  }
-  .van-tabs >>> .van-tab:nth-child(1) {
-    margin-left: 0px;
-  }
+.van-tabs >>> .van-tab {
+  margin-left: 20px;
+}
+.van-tabs >>> .van-tab:nth-child(1) {
+  margin-left: 0px;
+}
 
-  .menu-box {
-    position: absolute;
-    top: 25px;
-    left: -95px;
-    width: 125px;
-    height: 245px;
-    color: white;
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    border-radius: 4px;
-    z-index: 999;
-  }
-  .content {
-    color: black;
-    font-size: 20px;
-    position: absolute;
-    top: -13px;
-    left: 98px;
-  }
-  .menu-box li {
-    line-height: 16px;
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  .custom-indicator {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    padding: 2px 5px;
-    font-size: 12px;
-    background: rgba(0, 0, 0, 0.1);
-    color: white;
-  }
-  .banner img {
-    width: 375px;
-    height: 372px;
-  }
-  .price {
-    height: 40px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .price .right {
-    font-size: 14px;
-    margin-right: 10px;
-  }
-  .price .right span:nth-child(1) {
-    margin-left: -10;
-  }
-  .price .right span:nth-child(2) {
-    margin-left: 40px;
-  }
-  .price .right span:nth-child(4) {
-    margin-left: -20px;
-  }
-  .price .right span:nth-child(5) {
-    margin-left: 20px;
-  }
-  .price .right .fz {
-    font-size: 20px;
-  }
-  .rmb {
-    line-height: 40px;
-    margin-left: 10px;
-    color: red;
-    font-size: 16px;
-  }
-  .color {
-    color: red;
-    font-size: 26px;
-  }
-  .p-name {
-    margin-top: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    margin-left: 10px;
-  }
-  .margin {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-  .fangxingou {
-    margin-top: 15px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .fangxingou div:nth-child(2) {
-    margin-left: -190px;
-    color: red;
-  }
-  .fangxingou img {
-    width: 70px;
-    height: 13px;
-  }
-  .youhui {
-    line-height: 38px;
-    height: 38px;
-    background-color: rgb(255, 208, 203);
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
+.menu-box {
+  position: absolute;
+  top: 25px;
+  left: -95px;
+  width: 125px;
+  height: 245px;
+  color: white;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  z-index: 999;
+}
+.content {
+  color: black;
+  font-size: 20px;
+  position: absolute;
+  top: -13px;
+  left: 98px;
+}
+.menu-box li {
+  line-height: 16px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.custom-indicator {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  color: white;
+}
+.banner img {
+  width: 375px;
+  height: 372px;
+}
+.price {
+  height: 40px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.price .right {
+  font-size: 14px;
+  margin-right: 10px;
+}
+.price .right span:nth-child(1) {
+  margin-left: -10;
+}
+.price .right span:nth-child(2) {
+  margin-left: 40px;
+}
+.price .right span:nth-child(4) {
+  margin-left: -20px;
+}
+.price .right span:nth-child(5) {
+  margin-left: 20px;
+}
+.price .right .fz {
+  font-size: 20px;
+}
+.rmb {
+  line-height: 40px;
+  margin-left: 10px;
+  color: red;
+  font-size: 16px;
+}
+.color {
+  color: red;
+  font-size: 26px;
+}
+.p-name {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 10px;
+}
+.margin {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.fangxingou {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+.fangxingou div:nth-child(2) {
+  margin-left: -190px;
+  color: red;
+}
+.fangxingou img {
+  width: 70px;
+  height: 13px;
+}
+.youhui {
+  line-height: 38px;
+  height: 38px;
+  background-color: rgb(255, 208, 203);
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .youhui span:nth-child(1) {
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .youhui span:nth-child(2) {
-    margin-top: 10px;
-  }
-  .youhui span:nth-child(3) {
-    margin-top: 10px;
-  }
-  .youhui span:nth-child(4) {
-    margin-top: 10px;
-  }
+.youhui span:nth-child(1) {
+  font-weight: 700;
+  font-size: 14px;
+}
+.youhui span:nth-child(2) {
+  margin-top: 10px;
+}
+.youhui span:nth-child(3) {
+  margin-top: 10px;
+}
+.youhui span:nth-child(4) {
+  margin-top: 10px;
+}
 
-  .coupon {
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    line-height: normal;
-    margin-right: 6px;
-    padding: 0 6px;
-    border: 1px solid #ff8373;
-    border-radius: 2.5px;
-    height: 15px;
-    color: #f2270c;
-    font-size: 10px;
-  }
+.coupon {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  line-height: normal;
+  margin-right: 6px;
+  padding: 0 6px;
+  border: 1px solid #ff8373;
+  border-radius: 2.5px;
+  height: 15px;
+  color: #f2270c;
+  font-size: 10px;
+}
 </style>
