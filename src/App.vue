@@ -14,27 +14,15 @@
 <script>
   // import Footer from "./components/Footer.vue";
 
-<<<<<<< HEAD
   export default {
     name: "App",
     components: {
       // Footer,
     },
   };
-=======
-export default {
-  name: "App",
-  components: {
-    // Footer,
-  },
-  created() {
-    const userInfo = localStorage.getItem("info")
-      ? JSON.parse(localStorage.getItem("info"))
-      : "";
-    this.$store.commit("getuser", userInfo);
-  },
-};
->>>>>>> 5bb31aa4c02965160a8f179e7aab5e83e21408e7
 </script>
 
-<style></style>
+<style>
+  #app {
+  }
+</style>

@@ -213,7 +213,7 @@
       },
       async addCart(product, quantity) {
         console.log(product);
-        const result = await reqAddCart(product, quantity);
+        const result = await reqAddCart({ product, quantity });
         if (result.status == 200) {
           this.$toast.success("加入购物车成功");
         }
