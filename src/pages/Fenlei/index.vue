@@ -58,7 +58,6 @@
   </div>
 </template>
 <script>
-<<<<<<< HEAD
   import { reqProducts } from "../../api/products";
   import { Toast } from "vant";
   import { Dialog } from "vant";
@@ -115,73 +114,6 @@
         goodsList: [],
         value: "",
       };
-=======
-import { reqProducts } from "../../api/products";
-import { Toast } from "vant";
-import { Dialog } from "vant";
-export default {
-  components: {},
-  data() {
-    return {
-      historyList: null,
-      active: 0,
-      flag: false,
-      navlist: [
-        { name: "首页", icon: "home-o" },
-        { name: "分类搜索", icon: "search" },
-        { name: "购物车", icon: "cart-o" },
-        { name: "我的京东", icon: "user-o" },
-        { name: "浏览记录", icon: "eye-o" },
-      ],
-      items: [
-        { text: "热门推荐" },
-        { text: "手机数码" },
-        { text: "电脑办公" },
-        { text: "家用电器" },
-        { text: "美妆护肤" },
-        { text: "汽车生活" },
-        { text: "京东超市" },
-        { text: "男装" },
-        { text: "男鞋" },
-        { text: "女装" },
-        { text: "女鞋" },
-        { text: "运动户外" },
-        { text: "内衣配饰" },
-        { text: "酒水饮料" },
-        { text: "家具家装" },
-        { text: "箱包手袋" },
-        { text: "钟表珠宝" },
-        { text: "玩具乐器" },
-        { text: "医药保健" },
-        { text: "宠物生活" },
-        { text: "京东超市" },
-        { text: "礼品鲜花" },
-        { text: "农资绿植" },
-        { text: "生活旅行" },
-        { text: "奢侈品" },
-        { text: "京东国际" },
-        { text: "艺术邮币" },
-        { text: "二手商品" },
-        { text: "特产馆" },
-        { text: "京东金融" },
-        { text: "国际名牌" },
-        { text: "拍卖" },
-        { text: "房产" },
-        { text: "工业品" },
-      ],
-      goodsList: [],
-      value: "",
-    };
-  },
-  computed: {},
-  watch: {},
-  methods: {
-    //点击获取商品
-    async clickNav(index) {
-      const result = await reqProducts({ page: index + 1, per: 20 });
-      console.log(result.data.products);
-      this.goodsList = result.data.products;
->>>>>>> 6925119744d0938a357c9360bd1f80fa2e708e2e
     },
     computed: {},
     watch: {},
