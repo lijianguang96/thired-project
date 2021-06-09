@@ -119,6 +119,14 @@ const router = new VueRouter({
       meta: {
         footerShow: false,
       },
+      beforeEnter: (to, from, next) => {
+        const isLogin = localStorage.getItem("token") || "";
+        if (!isLogin) {
+          next("/login")
+        } else {
+          next("/")
+        }
+      }
     },
   ],
 });
