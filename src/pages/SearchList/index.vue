@@ -4,7 +4,7 @@
       <div class="backBtn" @click="back"></div>
       <div class="seach">
         <i></i>
-        <input type="text" @click="goToSeach" />
+        <input type="text" @click="goToSeach" v-model="val" />
       </div>
       <div class="more"></div>
     </div>
@@ -101,6 +101,7 @@ export default {
   components: {},
   data() {
     return {
+      val: "",
       showbtn: false,
       loading: false,
       finished: false,
@@ -109,6 +110,7 @@ export default {
       value: 0,
       switch1: false,
       switch2: false,
+      arr: [],
       option: [
         { text: "综合", value: 0 },
         { text: "最新上架", value: 1 },
@@ -125,7 +127,13 @@ export default {
       ],
     };
   },
-  computed: {},
+  computed: {
+    // search: function () {
+    //   this.arr = this.goodsList.filter((item) => item.name == this.val);
+    //   console.log(this.arr);
+    //   return arr;
+    // },
+  },
   watch: {},
   methods: {
     //返回上一页
@@ -141,7 +149,7 @@ export default {
       this.loading = true; //先把加载中展示出来
       const result = await reqProducts({ page: this.page });
       this.loading = false; //关闭加载
-      console.log(result.data.products);
+      // console.log(result.data.products);
       this.goodsList = [...this.goodsList, ...result.data.products]; //把每次的数据拼接起来
       if (result.data.products < 10) {
         //如果返回的数据是最后一页 说明数据已经加载完毕
@@ -184,9 +192,24 @@ export default {
         }
       }, 30);
     },
+    //显示搜索内容
+    // searchVal(val) {
+    //   this.goodsList.forEach((v) => {
+    //     let earSeach = v.name.includes(val);
+    //     console.log(earSeach);
+    //     if (earSeach == true) {
+    //       this.arr.push(v);
+    //       console.log(this.arr);
+    //       this.goodsList = [];
+    //     }
+    //   });
+    // },
   },
   created() {
+    // this.searchVal();
     this.lodeList();
+    let title = this.$route.query.val;
+    this.val = title;
   },
   mounted() {
     // 监听滚动;
