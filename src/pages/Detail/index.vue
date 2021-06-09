@@ -141,7 +141,7 @@
     <!-- 底部 -->
 
     <div class="footer">
-      <van-goods-action v-for="i in quantity" :key="i.id">
+      <van-goods-action>
         <van-goods-action-icon icon="chat-o" text="客服" dot />
         <van-goods-action-icon
           icon="cart-o"
@@ -266,7 +266,7 @@
     components: {},
     data() {
       return {
-        quantity: {},
+        quantity: [],
         products: {},
         show: false,
         fxgshow: false,
@@ -356,6 +356,8 @@
         const result = await reqAddCart({ product, quantity });
         if (result.status == 200) {
           this.$toast.success("加入购物车成功");
+        } else {
+          this.$toast.fail("请登录");
         }
         console.log(result);
         this.getCar();
