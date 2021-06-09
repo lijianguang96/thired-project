@@ -1,5 +1,6 @@
 <template>
   <div class="mine">
+    <!-- <div v-if="isLogin"> -->
     <div class="avatar">
       <van-image
         round
@@ -64,7 +65,7 @@
             placeholder="头像"
             :rules="[{ required: true, message: '请填写头像地址' }]"
           />
-          <div style="margin: 16px;">
+          <div style="margin: 16px">
             <van-button round block type="info" native-type="submit"
               >提交</van-button
             >
@@ -96,7 +97,7 @@
             placeholder="新密码"
             :rules="[{ required: true, message: '请填写新密码' }]"
           />
-          <div style="margin: 16px;">
+          <div style="margin: 16px">
             <van-button round block type="info" native-type="submit"
               >提交</van-button
             >
@@ -111,6 +112,7 @@
         退出登陆
       </van-cell>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -126,6 +128,7 @@ export default {
   components: {},
   data() {
     return {
+      isLogin: localStorage.getItem("token") || "",
       currentname: "",
       show: false,
       updata: false,
@@ -155,6 +158,7 @@ export default {
         .then(() => {
           removeToken();
           this.$router.push("/");
+          this.$router.go(0);
         })
         .catch(() => {
           // 取消
@@ -173,14 +177,14 @@ export default {
     },
     async getUserInfo() {
       const result = await reqUserInfo();
-      console.log(result.data);
+      // console.log(result.data);
       this.obj = result.data;
       this.currentname = result.data.nickName;
     },
     async onSubmit(values) {
-      console.log("submit", values);
+      // console.log("submit", values);
       const result = await reqChangename(values);
-      console.log(result);
+      // console.log(result);
       if (result.data.code == "success") {
         Notify({ type: "success", message: "修改成功" });
         this.account = false;
@@ -188,12 +192,12 @@ export default {
       }
     },
     async onPassword(values) {
-      console.log("submit", values);
+      // console.log("submit", values);
       // console.log(values.password);
       const pas = /(?=.*\d)(?=.*[a-z])(?=.*[@#$%!^*/~`])/;
       if (pas.test(values.password)) {
         const result = await reqChangepwd(values);
-        console.log(result);
+        // console.log(result);
         if (result.data.code == "error") {
           Toast("原始密码输入错误");
         } else {

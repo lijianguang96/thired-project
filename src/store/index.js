@@ -4,7 +4,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         info: null,
-        data: null
+        data: null,
+        isLogin: ''
 
     },
     getters: {
@@ -13,6 +14,9 @@ const store = new Vuex.Store({
         },
         getData(state) {
             return state.data;
+        },
+        getIsLogin(state) {
+            return state.isLogin;
         }
     },
     mutations: {//只有mutations才可以修改状态被跟踪到，另外mutations不支持异步
@@ -22,6 +26,9 @@ const store = new Vuex.Store({
         },
         getData(state, data) {
             state.data = data
+        },
+        getIsLogin(state, islogin) {
+            state.isLogin = islogin
         }
     }
 })

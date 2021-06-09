@@ -60,6 +60,7 @@ export default {
         Toast.success("登录成功");
         setTimeout(() => {
           this.$router.push("/");
+          this.$router.go(0);
         }, 1000);
       } else {
         Toast.fail("登录失败");

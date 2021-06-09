@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 const router = new VueRouter({
+  // mode: 'history',
   routes: [
     {
       path: "/",
@@ -70,41 +71,20 @@ const router = new VueRouter({
         footerShow: false,
       },
     },
-    // {
-    //   path: "/jingxi",
-    //   component: () => import("../pages/Jingxi"),
-    //   meta: {
-    //     footerShow: false,
-    //   },
-    // },
-    // {
-    //     path: "/address",
-    //     component: () => import("../pages/address"),
-    //     meta: {
-    //         footerShow: false,
-    //     },
-    // },
-    // {
-    //     path: "/order",
-    //     component: () => import("../pages/order"),
-    //     meta: {
-    //         footerShow: false,
-    //     },
-    // },
     {
       path: "/mine",
       component: () => import("../pages/Mine"),
       meta: {
         footerShow: true,
       },
-      beforeEnter: (to, from, next) => {
-        const isLogin = localStorage.getItem("token") || "";
-        if (!isLogin) {
-          next("/login")
-        } else {
-          next()
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   const isLogin = localStorage.getItem("token") || "";
+      //   if (!isLogin) {
+      //     next("/login")
+      //   } else {
+      //     next()
+      //   }
+      // }
     },
     {
       path: "/reg",
@@ -119,14 +99,14 @@ const router = new VueRouter({
       meta: {
         footerShow: false,
       },
-      beforeEnter: (to, from, next) => {
-        const isLogin = localStorage.getItem("token") || "";
-        if (!isLogin) {
-          next("/login")
-        } else {
-          next("/")
-        }
-      }
+      // beforeEnter: (to, from, next) => {
+      //   const isLogin = localStorage.getItem("token") || "";
+      //   if (!isLogin) {
+      //     next("/login")
+      //   } else {
+      //     next("/")
+      //   }
+      // }
     },
   ],
 });

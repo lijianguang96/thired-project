@@ -24,6 +24,10 @@ instance.interceptors.response.use(
         return response;
     },
     function (error) {
+        // console.log(error.response);
+        // if (error.response && error.response.status == 401) {
+        //     location.href = "/#/login"
+        // }
         return Promise.reject(error);
     }
 );
